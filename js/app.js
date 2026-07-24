@@ -17,21 +17,30 @@ const PAGES = {
 
 let currentPage = 'landing';
 
+function getCleanHash() {
+  const raw = (window.location.hash || '').replace(/^#\/?/, '').replace(/\/$/, '').trim();
+  return PAGES[raw] ? raw : null;
+}
+
 // ─── NAVIGATION ──────────────────────────────
 function showPage(pageName, sectionHash = null) {
-  if (!PAGES[pageName]) return;
+  if (!PAGES[pageName]) pageName = 'landing';
 
   // Sync browser URL hash
-  if (window.location.hash !== '#' + pageName && !sectionHash) {
-    try { history.pushState(null, null, '#' + pageName); } catch(e) {}
+  const targetHash = '#' + pageName;
+  if (window.location.hash !== targetHash && !sectionHash) {
+    try { history.pushState(null, null, targetHash); } catch(e) {}
   }
 
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Explicitly hide all pages
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
 
   // Render page if it has a renderer
   const pageConfig = PAGES[pageName];
-  if (pageConfig.render) {
+  if (pageConfig && pageConfig.render) {
     try {
       pageConfig.render();
     } catch (err) {
@@ -39,10 +48,11 @@ function showPage(pageName, sectionHash = null) {
     }
   }
 
-  // Show selected page
+  // Show selected page explicitly
   const pageEl = document.getElementById(pageConfig.id);
   if (pageEl) {
     pageEl.classList.add('active');
+    pageEl.style.display = 'block';
     if (!sectionHash) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -397,9 +407,9 @@ document.addEventListener('keydown', (e) => {
 
 // ─── HASH NAVIGATION ─────────────────────────
 window.addEventListener('hashchange', () => {
-  const hash = window.location.hash.replace('#', '');
-  if (PAGES[hash] && currentPage !== hash) {
-    showPage(hash);
+  const target = getCleanHash();
+  if (target && currentPage !== target) {
+    showPage(target);
   }
 });
 
@@ -414,9 +424,9 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('academicare_user');
   }
 
-  const hash = window.location.hash.replace('#', '');
-  if (PAGES[hash]) {
-    showPage(hash);
+  const target = getCleanHash();
+  if (target) {
+    showPage(target);
   } else {
     showPage('landing');
   }
