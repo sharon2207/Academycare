@@ -18,8 +18,13 @@ const PAGES = {
 let currentPage = 'landing';
 
 // ─── NAVIGATION ──────────────────────────────
-function showPage(pageName) {
+function showPage(pageName, sectionHash = null) {
   if (!PAGES[pageName]) return;
+
+  // Sync browser URL hash
+  if (window.location.hash !== '#' + pageName && !sectionHash) {
+    try { history.pushState(null, null, '#' + pageName); } catch(e) {}
+  }
 
   // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -27,24 +32,39 @@ function showPage(pageName) {
   // Render page if it has a renderer
   const pageConfig = PAGES[pageName];
   if (pageConfig.render) {
-    pageConfig.render();
+    try {
+      pageConfig.render();
+    } catch (err) {
+      console.error('[AcademiCare] Error rendering page:', pageName, err);
+    }
   }
 
   // Show selected page
   const pageEl = document.getElementById(pageConfig.id);
   if (pageEl) {
     pageEl.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!sectionHash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   currentPage = pageName;
   updateNavbar(pageConfig.navbarStyle);
   updateNavLinks(pageName);
   updateNavbarAuth();
+
+  // If navigating to landing with a specific section target
+  if (pageName === 'landing' && sectionHash) {
+    setTimeout(() => {
+      const sectionEl = document.querySelector(sectionHash);
+      if (sectionEl) sectionEl.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
 }
 
 function updateNavbar(style) {
   const navbar = document.getElementById('navbar');
+  if (!navbar) return;
   if (style === 'solid') {
     navbar.style.background = 'rgba(9,9,11,0.97)';
   } else {
@@ -58,16 +78,20 @@ function updateNavbarAuth() {
 
   if (container) {
     if (savedUser) {
-      const user = JSON.parse(savedUser);
-      container.innerHTML = `
-        <div style="display:flex;align-items:center;gap:8px">
-          <div onclick="showPage('${user.role === 'student' ? 'dashboard' : 'counselor'}')" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:5px 10px;border-radius:var(--radius-full);cursor:pointer;">
-            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:white">${user.avatar || 'U'}</div>
-            <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:600;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${user.name.split(' ')[0]}</span>
+      try {
+        const user = JSON.parse(savedUser);
+        container.innerHTML = `
+          <div style="display:flex;align-items:center;gap:8px">
+            <div onclick="showPage('${user.role === 'student' ? 'dashboard' : 'counselor'}')" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:5px 10px;border-radius:var(--radius-full);cursor:pointer;">
+              <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:white">${user.avatar || 'U'}</div>
+              <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:600;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${user.name ? user.name.split(' ')[0] : 'User'}</span>
+            </div>
+            <button onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">🚪 Logout</button>
           </div>
-          <button onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">🚪 Logout</button>
-        </div>
-      `;
+        `;
+      } catch(e) {
+        localStorage.removeItem('academicare_user');
+      }
     } else {
       container.innerHTML = `
         <button class="btn-outline" onclick="showPage('login')">Sign In</button>
@@ -79,23 +103,34 @@ function updateNavbarAuth() {
   const links = document.getElementById('navLinks');
   if (links) {
     if (savedUser) {
-      const user = JSON.parse(savedUser);
-      links.innerHTML = `
-        <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
-        <a onclick="showPage('dashboard')" class="nav-link" style="cursor:pointer">Dashboard</a>
-        <a onclick="showPage('checkin')" class="nav-link" style="cursor:pointer">Daily Check-In</a>
-        <a onclick="showPage('analytics')" class="nav-link" style="cursor:pointer">Analytics</a>
-        <a onclick="logout()" class="nav-link" style="cursor:pointer;color:#f87171">🚪 Logout (${user.name.split(' ')[0]})</a>
-      `;
+      try {
+        const user = JSON.parse(savedUser);
+        links.innerHTML = `
+          <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
+          <a onclick="showPage('dashboard')" class="nav-link" style="cursor:pointer">Dashboard</a>
+          <a onclick="showPage('checkin')" class="nav-link" style="cursor:pointer">Daily Check-In</a>
+          <a onclick="showPage('analytics')" class="nav-link" style="cursor:pointer">Analytics</a>
+          <a onclick="logout()" class="nav-link" style="cursor:pointer;color:#f87171">🚪 Logout (${user.name ? user.name.split(' ')[0] : 'User'})</a>
+        `;
+      } catch(e) {}
     } else {
       links.innerHTML = `
         <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#ml-models" class="nav-link">ML Models</a>
+        <a onclick="navigateToSection('#features')" class="nav-link" style="cursor:pointer">Features</a>
+        <a onclick="navigateToSection('#ml-models')" class="nav-link" style="cursor:pointer">ML Models</a>
         <a onclick="showPage('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700">🔑 Sign In</a>
         <a onclick="showPage('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700">✨ Create Account</a>
       `;
     }
+  }
+}
+
+function navigateToSection(sectionHash) {
+  if (currentPage !== 'landing') {
+    showPage('landing', sectionHash);
+  } else {
+    const el = document.querySelector(sectionHash);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
@@ -106,6 +141,7 @@ function updateNavLinks(page) {
 // ─── SCROLL HANDLER ──────────────────────────
 window.addEventListener('scroll', () => {
   const navbar = document.getElementById('navbar');
+  if (!navbar) return;
   if (window.scrollY > 20) {
     navbar.classList.add('scrolled');
   } else {
@@ -116,7 +152,7 @@ window.addEventListener('scroll', () => {
 // ─── HAMBURGER MENU ──────────────────────────
 function toggleMenu() {
   const links = document.getElementById('navLinks');
-  links.classList.toggle('open');
+  if (links) links.classList.toggle('open');
 }
 
 // ─── AUTH ────────────────────────────────────
@@ -168,7 +204,6 @@ async function handleLogin() {
       // Store JWT token + user session
       if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
       localStorage.setItem('academicare_user', JSON.stringify(user));
-      if (typeof closeAuthModal === 'function') closeAuthModal();
       showToast('✅', `Signed in successfully as ${user.name}!`, 'success');
       setTimeout(() => {
         if (user.role === 'counselor' || user.role === 'admin') showPage('counselor');
@@ -240,7 +275,6 @@ async function handleRegister() {
     // Store JWT + user session
     if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
     localStorage.setItem('academicare_user', JSON.stringify(user));
-    if (typeof closeAuthModal === 'function') closeAuthModal();
     showToast('🎉', `Account created successfully for ${name}!`, 'success');
     setTimeout(() => showPage('checkin'), 600);
 
@@ -325,9 +359,12 @@ function showToast(icon, message, type = 'info') {
 // ─── SMOOTH SCROLL FOR NAV LINKS ─────────────
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#' || href === '#landing' || href === '#login' || href === '#register' || href === '#dashboard' || href === '#checkin' || href === '#analytics' || href === '#counselor' || href === '#groups') {
+      return; // Handled by showPage / hash router
+    }
     e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    navigateToSection(href);
   });
 });
 
@@ -353,27 +390,25 @@ function observeElements() {
 // ─── KEYBOARD SHORTCUTS ───────────────────────
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    // Close mobile menu
     const links = document.getElementById('navLinks');
     if (links && links.classList.contains('open')) links.classList.remove('open');
-    // Close auth modal
-    if (typeof closeAuthModal === 'function') closeAuthModal();
   }
 });
 
 // ─── HASH NAVIGATION ─────────────────────────
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash.replace('#', '');
-  if (PAGES[hash]) showPage(hash);
+  if (PAGES[hash] && currentPage !== hash) {
+    showPage(hash);
+  }
 });
 
 // ─── INIT ─────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   // Check session validity on load
-  const token    = typeof getStoredToken === 'function' ? getStoredToken() : null;
+  const token     = typeof getStoredToken === 'function' ? getStoredToken() : null;
   const savedUser = localStorage.getItem('academicare_user');
 
-  // If token exists but is expired, clear session
   if (token && typeof isTokenExpired === 'function' && isTokenExpired(token)) {
     if (typeof clearToken === 'function') clearToken();
     localStorage.removeItem('academicare_user');
@@ -392,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const user = JSON.parse(freshUser);
       setTimeout(() => {
-        showToast('👤', `Welcome back, ${user.name.split(' ')[0]}! Click Dashboard to continue.`, 'info');
+        showToast('👤', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Click Dashboard to continue.`, 'info');
       }, 1000);
     } catch (e) {}
   } else {
