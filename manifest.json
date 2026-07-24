@@ -1,0 +1,16 @@
+{
+  "name": "AcademiCare",
+  "short_name": "AcademiCare",
+  "description": "Cloud Analytics Platform for Student Burnout Detection & Prevention",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><circle cx='96' cy='96' r='96' fill='%236366f1'/><circle cx='96' cy='96' r='40' fill='white' opacity='0.9'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

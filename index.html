@@ -1,0 +1,473 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AcademiCare â€” Cloud Analytics Platform for Student Burnout Detection</title>
+  <meta name="description" content="AcademiCare is an AI-powered cloud platform that detects and prevents academic burnout among college students using predictive analytics and ML." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <circle cx="14" cy="14" r="14" fill="url(#logoGrad)"/>
+              <path d="M8 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="14" cy="14" r="3" fill="white"/>
+              <path d="M14 17v3M11 19l3-2 3 2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6366f1"/>
+                  <stop offset="1" stop-color="#8b5cf6"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">AcademiCare</span>
+        </div>
+        <div class="nav-links" id="navLinks">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#ml-models" class="nav-link">ML Models</a>
+          <a href="#sdg" class="nav-link">SDG Impact</a>
+          <a href="#team" class="nav-link">Team</a>
+        </div>
+        <div class="nav-actions">
+          <button class="btn-outline" onclick="showPage('login')">Sign In</button>
+          <button class="btn-primary" onclick="showPage('register')">Get Started</button>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- LANDING PAGE -->
+    <section id="page-landing" class="page active">
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-bg">
+          <div class="hero-orb orb-1"></div>
+          <div class="hero-orb orb-2"></div>
+          <div class="hero-orb orb-3"></div>
+          <div class="grid-overlay"></div>
+        </div>
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            CHRIST (Deemed to be University) Â· Central Campus, Bangalore Â· NAAC A+ Â· SDG 3 &amp; 4
+          </div>
+          <h1 class="hero-title">
+            Detect Burnout<br/>
+            <span class="gradient-text">Before It Breaks</span><br/>
+            Your Students
+          </h1>
+          <p class="hero-subtitle">
+            AcademiCare uses <strong>Random Forest, Gradient Boosting, and K-Means</strong> ML models to compute personalized Burnout Risk Scores for students at <strong>CHRIST (Deemed to be University) â€” Bangalore Central Campus</strong> â€” connecting daily wellness check-ins with exam timetables, attendance, and internal marks.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-hero-primary" onclick="showPage('dashboard')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              View Live Demo
+            </button>
+            <button class="btn-hero-secondary" onclick="showPage('checkin')">
+              Start Daily Check-in
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-num">12</span>
+              <span class="stat-label">AI Features</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">5</span>
+              <span class="stat-label">ML Models</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">0â€“100</span>
+              <span class="stat-label">Burnout Score</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">AWS</span>
+              <span class="stat-label">Cloud Platform</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="dashboard-preview">
+            <div class="preview-header">
+              <div class="preview-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="preview-title">AcademiCare Dashboard</span>
+            </div>
+            <div class="preview-body">
+              <div class="preview-score-section">
+                <div class="mini-gauge">
+                  <svg viewBox="0 0 120 80" class="gauge-svg">
+                    <path d="M10 70 A50 50 0 0 1 110 70" fill="none" stroke="#1e1b4b" stroke-width="12" stroke-linecap="round"/>
+                    <path d="M10 70 A50 50 0 0 1 110 70" fill="none" stroke="url(#gaugeGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="55" class="gauge-fill"/>
+                    <text x="60" y="65" text-anchor="middle" fill="white" font-size="18" font-weight="700">67</text>
+                    <text x="60" y="78" text-anchor="middle" fill="#a78bfa" font-size="7">BURNOUT RISK</text>
+                    <defs>
+                      <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#10b981"/>
+                        <stop offset="50%" stop-color="#f59e0b"/>
+                        <stop offset="100%" stop-color="#ef4444"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                <div class="mini-risk-badge high">âš  HIGH RISK</div>
+              </div>
+              <div class="preview-metrics">
+                <div class="preview-metric">
+                  <span class="pm-icon">ðŸ˜´</span>
+                  <span class="pm-label">Sleep</span>
+                  <span class="pm-value bad">5.2h</span>
+                </div>
+                <div class="preview-metric">
+                  <span class="pm-icon">ðŸ“š</span>
+                  <span class="pm-label">Study</span>
+                  <span class="pm-value good">7.8h</span>
+                </div>
+                <div class="preview-metric">
+                  <span class="pm-icon">ðŸŽ¯</span>
+                  <span class="pm-label">Mood</span>
+                  <span class="pm-value medium">6/10</span>
+                </div>
+              </div>
+              <div class="preview-chart-label">30-Day Stress Trend</div>
+              <div class="mini-chart">
+                <svg viewBox="0 0 200 50" class="mini-line">
+                  <polyline points="0,40 20,35 40,30 60,32 80,20 100,25 120,15 140,22 160,12 180,18 200,10" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                  <polyline points="0,40 20,35 40,30 60,32 80,20 100,25 120,15 140,22 160,12 180,18 200,10 200,50 0,50" fill="url(#areaGrad)" stroke="none"/>
+                  <defs>
+                    <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#6366f1"/>
+                      <stop offset="100%" stop-color="#a78bfa"/>
+                    </linearGradient>
+                    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div class="preview-alert">
+                <span class="alert-dot critical"></span>
+                Exam in 3 days â€” High stress predicted
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEATURES SECTION -->
+      <section id="features" class="features-section">
+        <div class="section-container">
+          <div class="section-label">12 AI-POWERED FEATURES</div>
+          <h2 class="section-title">Everything Your Campus Needs</h2>
+          <p class="section-subtitle">From daily check-ins to counselor alerts â€” AcademiCare covers the complete student wellness lifecycle</p>
+          <div class="features-grid">
+            <div class="feature-card" onclick="showPage('checkin')">
+              <div class="feature-icon purple">ðŸ“‹</div>
+              <h3>Daily Check-In Portal</h3>
+              <p>2-minute PWA check-in logging mood (1â€“10), sleep hours, and study hours. Works on any smartphone.</p>
+              <span class="feature-tag">PWA Â· Offline-Ready</span>
+            </div>
+            <div class="feature-card" onclick="showPage('dashboard')">
+              <div class="feature-icon blue">ðŸ¤–</div>
+              <h3>AI Burnout Risk Score</h3>
+              <p>Random Forest classifier computes 0â€“100 personalized burnout score using 12 features including academic data.</p>
+              <span class="feature-tag">Random Forest Â· 12 Features</span>
+            </div>
+            <div class="feature-card" onclick="showPage('dashboard')">
+              <div class="feature-icon green">ðŸ’¡</div>
+              <h3>Wellness Recommendations</h3>
+              <p>Context-aware suggestions based on individual burnout profile â€” sleep hygiene, study breaks, mindfulness.</p>
+              <span class="feature-tag">Personalized Â· Real-Time</span>
+            </div>
+            <div class="feature-card" onclick="showPage('analytics')">
+              <div class="feature-icon orange">ðŸ“Š</div>
+              <h3>Student Analytics Dashboard</h3>
+              <p>30-day stress trends, correlation heatmaps, burnout episode history, and resilience recovery tracking.</p>
+              <span class="feature-tag">Plotly Â· Recharts</span>
+            </div>
+            <div class="feature-card" onclick="showPage('counselor')">
+              <div class="feature-icon red">ðŸ””</div>
+              <h3>Anonymous Counselor Alerts</h3>
+              <p>When burnout hits Critical (â‰¥80), counselors are anonymously notified via Firebase Cloud Messaging.</p>
+              <span class="feature-tag">Firebase FCM Â· Anonymous</span>
+            </div>
+            <div class="feature-card" onclick="showPage('analytics')">
+              <div class="feature-icon teal">ðŸ“…</div>
+              <h3>Exam-Aware Stress Prediction</h3>
+              <p>Regression model predicts stress spikes 2 weeks before exams based on current trends and historical data.</p>
+              <span class="feature-tag">Regression Â· Time-Series</span>
+            </div>
+            <div class="feature-card" onclick="showPage('analytics')">
+              <div class="feature-icon indigo">ðŸ”—</div>
+              <h3>Attendance & Performance Correlation</h3>
+              <p>Pearson Correlation links low attendance and poor marks to stress spikes. Identifies at-risk students early.</p>
+              <span class="feature-tag">Pearson Correlation</span>
+            </div>
+            <div class="feature-card" onclick="showPage('groups')">
+              <div class="feature-icon pink">ðŸ‘¥</div>
+              <h3>Peer Study Group Recommender</h3>
+              <p>K-Means clustering matches students with similar stress patterns for mutual peer support groups.</p>
+              <span class="feature-tag">K-Means Clustering</span>
+            </div>
+            <div class="feature-card" onclick="showPage('counselor')">
+              <div class="feature-icon yellow">ðŸŽ“</div>
+              <h3>Subject &amp; Deadline Stress Impact</h3>
+              <p>Flags which subject assignment deadlines cause collective burnout spikes across the batch. Actionable insights for academic coordinators.</p>
+              <span class="feature-tag">Batch Analytics</span>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon purple">ðŸ‡®ðŸ‡³</div>
+              <h3>Indian Context Stress Triggers</h3>
+              <p>Tracks placement anxiety, GATE/CAT preparation pressure, family financial stress â€” uniquely Indian.</p>
+              <span class="feature-tag">Indian College Context</span>
+            </div>
+            <div class="feature-card" onclick="showPage('analytics')">
+              <div class="feature-icon green">ðŸ’ª</div>
+              <h3>Resilience Recovery Score</h3>
+              <p>Measures how well and how fast a student recovers after a burnout episode â€” goes beyond just detection.</p>
+              <span class="feature-tag">Longitudinal Tracking</span>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon blue">â˜ï¸</div>
+              <h3>Cloud-Native Architecture</h3>
+              <p>AWS RDS + S3 + EC2 with Docker containers. Scales to thousands of students with 99.9% uptime.</p>
+              <span class="feature-tag">AWS Â· Docker</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ML MODELS SECTION -->
+      <section id="ml-models" class="ml-section">
+        <div class="section-container">
+          <div class="section-label">MACHINE LEARNING ENGINE</div>
+          <h2 class="section-title">5 Specialized ML Models</h2>
+          <p class="section-subtitle">Each model targets a specific dimension of student burnout prediction</p>
+          <div class="ml-models-grid">
+            <div class="ml-card">
+              <div class="ml-number">01</div>
+              <div class="ml-icon">ðŸŒ³</div>
+              <h3>Random Forest Classifier</h3>
+              <p>Classifies burnout risk into Low / Moderate / High / Critical using 12 input features combining wellness and academic data.</p>
+              <div class="ml-tags">
+                <span>Scikit-learn</span><span>12 Features</span><span>4-Class Output</span>
+              </div>
+            </div>
+            <div class="ml-card">
+              <div class="ml-number">02</div>
+              <div class="ml-icon">ðŸ§ </div>
+              <h3>LSTM Neural Network</h3>
+              <p>Detects time-series stress patterns over 14â€“30 day rolling windows. Predicts stress trajectory for next 7 days.</p>
+              <div class="ml-tags">
+                <span>TensorFlow/Keras</span><span>Time-Series</span><span>14-30 Day Window</span>
+              </div>
+            </div>
+            <div class="ml-card">
+              <div class="ml-number">03</div>
+              <div class="ml-icon">ðŸ“ˆ</div>
+              <h3>Regression Model</h3>
+              <p>Predicts exact stress score on exam day based on current trends, days-to-exam, and past exam stress patterns.</p>
+              <div class="ml-tags">
+                <span>Scikit-learn</span><span>Exam-Aware</span><span>Proactive Alerts</span>
+              </div>
+            </div>
+            <div class="ml-card">
+              <div class="ml-number">04</div>
+              <div class="ml-icon">ðŸ”—</div>
+              <h3>Pearson Correlation</h3>
+              <p>Links assignment deadline dates to collective stress spikes across the batch. Flags faculty/subjects causing burnout.</p>
+              <div class="ml-tags">
+                <span>NumPy/SciPy</span><span>Batch-Level</span><span>Faculty Insights</span>
+              </div>
+            </div>
+            <div class="ml-card">
+              <div class="ml-number">05</div>
+              <div class="ml-icon">ðŸŽ¯</div>
+              <h3>K-Means Clustering</h3>
+              <p>Groups students into 3â€“6 clusters based on stress patterns and study habits for peer study group recommendations.</p>
+              <div class="ml-tags">
+                <span>Scikit-learn</span><span>3-6 Clusters</span><span>Peer Matching</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SDG SECTION -->
+      <section id="sdg" class="sdg-section">
+        <div class="section-container">
+          <div class="section-label">UNITED NATIONS SDGs</div>
+          <h2 class="section-title">Contributing to Global Goals</h2>
+          <div class="sdg-cards">
+            <div class="sdg-card sdg3">
+              <div class="sdg-badge">SDG 3</div>
+              <h3>Good Health & Well-Being</h3>
+              <p>AcademiCare proactively monitors student mental health, detects burnout before it escalates, and connects at-risk students with counseling resources.</p>
+              <ul>
+                <li>Early burnout detection</li>
+                <li>Anonymous counselor alerts</li>
+                <li>Personalized wellness recommendations</li>
+                <li>Resilience recovery tracking</li>
+              </ul>
+            </div>
+            <div class="sdg-card sdg4">
+              <div class="sdg-badge">SDG 4</div>
+              <h3>Quality Education</h3>
+              <p>By reducing burnout, AcademiCare helps students maintain academic performance, improve attendance, and achieve their educational goals.</p>
+              <ul>
+                <li>Performance-wellness correlation</li>
+                <li>Exam-aware stress management</li>
+                <li>Peer learning group formation</li>
+                <li>Subject deadline workload optimization</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TECH STACK -->
+      <section class="tech-section">
+        <div class="section-container">
+          <div class="section-label">TECHNOLOGY STACK</div>
+          <h2 class="section-title">Built on Enterprise-Grade Infrastructure</h2>
+          <div class="tech-grid">
+            <div class="tech-category">
+              <h4>Frontend</h4>
+              <div class="tech-tags">
+                <span class="tech-tag">React.js</span>
+                <span class="tech-tag">Tailwind CSS</span>
+                <span class="tech-tag">PWA</span>
+                <span class="tech-tag">Plotly.js</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h4>Backend</h4>
+              <div class="tech-tags">
+                <span class="tech-tag">Python FastAPI</span>
+                <span class="tech-tag">PostgreSQL</span>
+                <span class="tech-tag">JWT Auth</span>
+                <span class="tech-tag">Celery</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h4>ML / AI</h4>
+              <div class="tech-tags">
+                <span class="tech-tag">Scikit-learn</span>
+                <span class="tech-tag">TensorFlow</span>
+                <span class="tech-tag">Pandas</span>
+                <span class="tech-tag">NumPy</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h4>Cloud</h4>
+              <div class="tech-tags">
+                <span class="tech-tag">AWS EC2</span>
+                <span class="tech-tag">AWS RDS</span>
+                <span class="tech-tag">AWS S3</span>
+                <span class="tech-tag">Docker</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h4>Notifications</h4>
+              <div class="tech-tags">
+                <span class="tech-tag">Firebase FCM</span>
+                <span class="tech-tag">WebSockets</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-brand">
+            <div class="nav-logo">
+              <div class="logo-icon small">
+                <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+                  <circle cx="14" cy="14" r="14" fill="url(#logoGrad2)"/>
+                  <path d="M8 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="14" cy="14" r="3" fill="white"/>
+                  <defs>
+                    <linearGradient id="logoGrad2" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#6366f1"/>
+                      <stop offset="1" stop-color="#8b5cf6"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <span class="logo-text">AcademiCare</span>
+            </div>
+            <p>CHRIST (Deemed to be University) â€” Bangalore Central Campus</p>
+            <p>School of Sciences Â· MCA &amp; Computer Science Specialization Â· June 2026</p>
+          </div>
+          <div class="footer-links">
+            <div class="footer-col">
+              <h5>Platform</h5>
+              <a onclick="showPage('dashboard')">Student Dashboard</a>
+              <a onclick="showPage('checkin')">Daily Check-In</a>
+              <a onclick="showPage('analytics')">Analytics</a>
+              <a onclick="showPage('counselor')">Counselor Portal</a>
+            </div>
+            <div class="footer-col">
+              <h5>Tech Stack</h5>
+              <a href="#">Random Forest Classifier</a>
+              <a href="#">Gradient Boosting Regressor</a>
+              <a href="#">K-Means Peer Clustering</a>
+              <a href="#">FastAPI + SQLite Engine</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>Â© 2026 AcademiCare Â· Built for CHRIST (Deemed to be University) â€” Bangalore Central Campus Â· Predictive Student Wellness Analytics</p>
+        </div>
+      </footer>
+
+    </section><!-- end landing -->
+
+    <!-- PAGES: loaded via JS -->
+    <section id="page-login" class="page"></section>
+    <section id="page-register" class="page"></section>
+    <section id="page-dashboard" class="page"></section>
+    <section id="page-checkin" class="page"></section>
+    <section id="page-analytics" class="page"></section>
+    <section id="page-counselor" class="page"></section>
+    <section id="page-groups" class="page"></section>
+
+  </div>
+
+  <!-- AUTH MODAL OVERLAY -->
+  <div id="auth-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);"></div>
+
+  <script src="js/chart.min.js"></script>
+  <script src="js/data.js?v=20260724_v8"></script>
+  <script src="js/validation.js?v=20260724_v8"></script>
+  <script src="js/pages.js?v=20260724_v8"></script>
+  <script src="js/charts.js?v=20260724_v8"></script>
+  <script src="js/app.js?v=20260724_v8"></script>
+</body>
+</html>
