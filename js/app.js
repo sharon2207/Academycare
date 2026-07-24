@@ -22,6 +22,120 @@ function getCleanHash() {
   return PAGES[raw] ? raw : null;
 }
 
+// ─── AUTH MODAL OVERLAY ──────────────────────
+function openAuthModal(type = 'login') {
+  const modal = document.getElementById('auth-modal');
+  if (!modal) return showPage(type);
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  if (type === 'register') {
+    modal.innerHTML = `
+      <div class="auth-card" style="width:100%;max-width:480px;background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.8);position:relative;max-height:90vh;overflow-y:auto">
+        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem">×</button>
+        <h2 style="font-size:1.5rem;font-weight:800;color:white;margin-bottom:4px;text-align:center">Create Student Account</h2>
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:20px;text-align:center">CHRIST (Deemed to be University) Student Portal</p>
+        
+        <div style="margin-bottom:12px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Full Name *</label>
+          <input type="text" id="reg-name" placeholder="Your full name" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">College Email *</label>
+          <input type="email" id="reg-email" placeholder="student@christuniversity.in" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Department *</label>
+          <select id="reg-dept" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box">
+            <option value="MCA">MCA — Dept. of Computer Science</option>
+            <option value="MSc DS">MSc Data Science</option>
+            <option value="MSc CS">MSc Computer Science</option>
+            <option value="MBA">MBA — School of Business</option>
+            <option value="BCom FA">BCom Finance and Accountancy</option>
+            <option value="BA LLB">School of Law</option>
+            <option value="BTech CS">School of Engineering</option>
+          </select>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Year of Study *</label>
+          <select id="reg-year" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box">
+            <option value="1">Year 1</option>
+            <option value="2" selected>Year 2</option>
+            <option value="3">Year 3</option>
+          </select>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Password *</label>
+          <input type="password" id="reg-pass" placeholder="Create a strong password" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
+          <div id="reg-pass-strength"></div>
+        </div>
+        <div style="margin-bottom:20px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Confirm Password *</label>
+          <input type="password" id="reg-confirm-pass" placeholder="Re-enter password" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
+        </div>
+        <button id="btn-register" onclick="handleRegister()" style="width:100%;padding:12px;border-radius:9999px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-weight:700;font-size:0.95rem;border:none;cursor:pointer">
+          Create Account & Continue →
+        </button>
+        <div style="text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-muted)">
+          Already have an account? <a onclick="openAuthModal('login')" style="color:var(--purple-light);font-weight:600;cursor:pointer">Sign in here</a>
+        </div>
+      </div>
+    `;
+  } else {
+    modal.innerHTML = `
+      <div class="auth-card" style="width:100%;max-width:420px;background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.8);position:relative">
+        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem">×</button>
+        <h2 style="font-size:1.5rem;font-weight:800;color:white;margin-bottom:4px;text-align:center">Welcome Back</h2>
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:20px;text-align:center">Sign in to your student wellness portal</p>
+        
+        <div class="role-selector" style="display:flex;gap:8px;margin-bottom:16px">
+          <button class="role-btn selected" id="role-student" onclick="selectRole('student')">🎓 Student</button>
+          <button class="role-btn" id="role-counselor" onclick="selectRole('counselor')">👨‍⚕️ Counselor</button>
+          <button class="role-btn" id="role-admin" onclick="selectRole('admin')">🔧 Admin</button>
+        </div>
+        <div style="margin-bottom:14px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">College Email *</label>
+          <input type="email" id="login-email" placeholder="student@christuniversity.in" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
+        </div>
+        <div style="margin-bottom:20px">
+          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Password *</label>
+          <input type="password" id="login-pass" placeholder="••••••••" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
+        </div>
+        <button id="btn-login" onclick="handleLogin()" style="width:100%;padding:12px;border-radius:9999px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-weight:700;font-size:0.95rem;border:none;cursor:pointer">
+          Sign In to Dashboard →
+        </button>
+        <div style="text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-muted)">
+          Don't have an account? <a onclick="openAuthModal('register')" style="color:var(--purple-light);font-weight:600;cursor:pointer">Register here</a>
+        </div>
+      </div>
+    `;
+  }
+
+  // Attach real-time validation handlers
+  if (typeof attachValidator === 'function') {
+    if (type === 'register') {
+      attachValidator('reg-name', validateName);
+      attachValidator('reg-email', validateEmail);
+      const passEl = document.getElementById('reg-pass');
+      if (passEl) {
+        passEl.addEventListener('input', () => {
+          if (typeof updatePasswordStrengthMeter === 'function')
+            updatePasswordStrengthMeter(passEl.value, 'reg-pass-strength');
+        });
+      }
+    } else {
+      attachValidator('login-email', validateEmail);
+    }
+  }
+}
+
+function closeAuthModal() {
+  const modal = document.getElementById('auth-modal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 // ─── NAVIGATION ──────────────────────────────
 function showPage(pageName, sectionHash = null) {
   if (!PAGES[pageName]) pageName = 'landing';
@@ -104,8 +218,8 @@ function updateNavbarAuth() {
       }
     } else {
       container.innerHTML = `
-        <button class="btn-outline" onclick="showPage('login')">Sign In</button>
-        <button class="btn-primary" onclick="showPage('register')">Get Started</button>
+        <button class="btn-outline" onclick="openAuthModal('login')">Sign In</button>
+        <button class="btn-primary" onclick="openAuthModal('register')">Get Started</button>
       `;
     }
   }
@@ -128,8 +242,8 @@ function updateNavbarAuth() {
         <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
         <a onclick="navigateToSection('#features')" class="nav-link" style="cursor:pointer">Features</a>
         <a onclick="navigateToSection('#ml-models')" class="nav-link" style="cursor:pointer">ML Models</a>
-        <a onclick="showPage('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700">🔑 Sign In</a>
-        <a onclick="showPage('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700">✨ Create Account</a>
+        <a onclick="openAuthModal('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700">🔑 Sign In</a>
+        <a onclick="openAuthModal('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700">✨ Create Account</a>
       `;
     }
   }
@@ -214,6 +328,7 @@ async function handleLogin() {
       // Store JWT token + user session
       if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
       localStorage.setItem('academicare_user', JSON.stringify(user));
+      closeAuthModal();
       showToast('✅', `Signed in successfully as ${user.name}!`, 'success');
       setTimeout(() => {
         if (user.role === 'counselor' || user.role === 'admin') showPage('counselor');
@@ -285,6 +400,7 @@ async function handleRegister() {
     // Store JWT + user session
     if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
     localStorage.setItem('academicare_user', JSON.stringify(user));
+    closeAuthModal();
     showToast('🎉', `Account created successfully for ${name}!`, 'success');
     setTimeout(() => showPage('checkin'), 600);
 
@@ -312,7 +428,7 @@ async function authFetch(url, options = {}) {
     if (typeof clearToken === 'function') clearToken();
     localStorage.removeItem('academicare_user');
     showToast('🔒', 'Your session has expired. Please sign in again.', 'error');
-    setTimeout(() => { updateNavbarAuth(); renderLoginPage(); }, 1500);
+    setTimeout(() => { updateNavbarAuth(); openAuthModal('login'); }, 1500);
     throw new Error('Session expired');
   }
   return res;
@@ -371,7 +487,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
     if (href === '#' || href === '#landing' || href === '#login' || href === '#register' || href === '#dashboard' || href === '#checkin' || href === '#analytics' || href === '#counselor' || href === '#groups') {
-      return; // Handled by showPage / hash router
+      return;
     }
     e.preventDefault();
     navigateToSection(href);
@@ -400,6 +516,7 @@ function observeElements() {
 // ─── KEYBOARD SHORTCUTS ───────────────────────
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
+    closeAuthModal();
     const links = document.getElementById('navLinks');
     if (links && links.classList.contains('open')) links.classList.remove('open');
   }
