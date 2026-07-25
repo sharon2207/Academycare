@@ -160,7 +160,7 @@ async function renderDashboardPage() {
   let isOffline       = false;
 
   try {
-    const res = await fetch(`/api/dashboard/${student.id}`);
+    const res = await fetch(`/api/dashboard/${student.id}`, { headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {}) });
     if (!res.ok) throw new Error('Failed to load dashboard from API');
     const data = await res.json();
     
@@ -467,7 +467,7 @@ async function renderCheckinPage() {
 
   if (!alreadyCheckedInToday) {
     try {
-      const res = await fetch(`/api/history/${student.id}`);
+      const res = await fetch(`/api/history/${student.id}`, { headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {}) });
       if (res.ok) {
         const result = await res.json();
         if (result.data && result.data.some(r => r.score_date === todayStr)) {
@@ -708,7 +708,7 @@ async function renderCheckinPage() {
         //  Call real FastAPI server 
         const res = await fetch('/api/checkin', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : { 'Content-Type': 'application/json' }),
           body: JSON.stringify(payload)
         });
 
@@ -808,7 +808,7 @@ async function renderAnalyticsPage() {
 
   // 1. Fetch check-in history
   try {
-    const res = await fetch(`/api/history/${student.id}`);
+    const res = await fetch(`/api/history/${student.id}`, { headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {}) });
     if (res.ok) {
       const result = await res.json();
       history = result.data || [];
@@ -819,7 +819,7 @@ async function renderAnalyticsPage() {
 
   // 2. Fetch student subjects from API or LocalStorage
   try {
-    const res = await fetch(`/api/subjects/${student.id}`);
+    const res = await fetch(`/api/subjects/${student.id}`, { headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {}) });
     if (res.ok) {
       const data = await res.json();
       userSubjects = data.subjects || [];
@@ -1065,7 +1065,7 @@ async function saveStudentSubject() {
   try {
     await fetch('/api/subjects', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : { 'Content-Type': 'application/json' }),
       body: JSON.stringify(payload)
     });
   } catch (err) {
@@ -1349,7 +1349,7 @@ async function renderGroupsPage() {
   let isOffline = false;
 
   try {
-    const res = await fetch(`/api/dashboard/${student.id}`);
+    const res = await fetch(`/api/dashboard/${student.id}`, { headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {}) });
     if (res.ok) {
       const data = await res.json();
       latestCheckin = data.latest_checkin;
