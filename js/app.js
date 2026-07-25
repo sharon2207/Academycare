@@ -217,13 +217,10 @@ function selectRole(role) {
 }
 
 async function handleLogin() {
-  // Frontend validation first
-  if (typeof validateLoginForm === 'function' && !validateLoginForm()) return;
-
   const email = document.getElementById('login-email')?.value?.trim();
   const pass  = document.getElementById('login-pass')?.value;
-  if (!email) return showToast('❌', 'Please enter your college email', 'error');
-  if (!pass)  return showToast('❌', 'Please enter your password', 'error');
+  if (!email) return showToast('❌', 'Please enter your college email address.', 'error');
+  if (!pass)  return showToast('❌', 'Please enter your password.', 'error');
 
   if (typeof showLoadingBtn === 'function') showLoadingBtn('btn-login', 'Signing in...');
   else showToast('🔐', 'Authenticating credentials...', 'info');
@@ -258,11 +255,12 @@ async function handleLogin() {
       if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
       localStorage.setItem('academicare_user', JSON.stringify(user));
       closeAuthModal();
+      updateNavbarAuth();
       showToast('✅', `Signed in successfully as ${user.name}!`, 'success');
       setTimeout(() => {
         if (user.role === 'counselor' || user.role === 'admin') showPage('counselor');
         else showPage('dashboard');
-      }, 600);
+      }, 500);
     } else {
       const msg = data.detail || 'Incorrect email or password. Please try again.';
       showToast('❌', msg, 'error');
@@ -276,22 +274,17 @@ async function handleLogin() {
 }
 
 async function handleRegister() {
-  // Frontend validation first
-  if (typeof validateRegistrationForm === 'function' && !validateRegistrationForm()) return;
-
   const name    = document.getElementById('reg-name')?.value?.trim();
   const email   = document.getElementById('reg-email')?.value?.trim();
   const dept    = document.getElementById('reg-dept')?.value || 'MCA';
   const year    = parseInt(document.getElementById('reg-year')?.value) || 2;
   const pass    = document.getElementById('reg-pass')?.value;
   const confirm = document.getElementById('reg-confirm-pass')?.value || null;
-  const ageEl   = document.getElementById('reg-age');
-  const age     = ageEl && ageEl.value ? parseInt(ageEl.value) : null;
 
-  if (!name)  return showToast('❌', 'Please enter your full name', 'error');
-  if (!email) return showToast('❌', 'Please enter your college email', 'error');
-  if (!pass)  return showToast('❌', 'Please choose a password', 'error');
-  if (confirm && pass !== confirm) return showToast('❌', 'Passwords do not match', 'error');
+  if (!name)  return showToast('❌', 'Please enter your full name.', 'error');
+  if (!email) return showToast('❌', 'Please enter your college email address.', 'error');
+  if (!pass)  return showToast('❌', 'Please enter a password.', 'error');
+  if (confirm && pass !== confirm) return showToast('❌', 'Passwords do not match. Please check and re-enter.', 'error');
 
   const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
   const rollNo   = (dept.slice(0,3) || 'MCA').toUpperCase() + '24B' + Math.floor(Math.random()*90+10);
@@ -305,7 +298,7 @@ async function handleRegister() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name, email, password: pass, confirm_password: confirm,
-        roll_no: rollNo, department: dept, year, age
+        roll_no: rollNo, department: dept, year
       })
     });
 
@@ -330,8 +323,9 @@ async function handleRegister() {
     if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
     localStorage.setItem('academicare_user', JSON.stringify(user));
     closeAuthModal();
+    updateNavbarAuth();
     showToast('🎉', `Account created successfully for ${name}!`, 'success');
-    setTimeout(() => showPage('checkin'), 600);
+    setTimeout(() => showPage('checkin'), 500);
 
   } catch (err) {
     console.warn('Registration error:', err.message);
