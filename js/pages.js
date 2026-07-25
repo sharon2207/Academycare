@@ -160,7 +160,7 @@ async function renderDashboardPage() {
   let isOffline       = false;
 
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/dashboard/${student.id}`);
+    const res = await fetch(`/api/dashboard/${student.id}`);
     if (!res.ok) throw new Error('Failed to load dashboard from API');
     const data = await res.json();
     
@@ -467,7 +467,7 @@ async function renderCheckinPage() {
 
   if (!alreadyCheckedInToday) {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/history/${student.id}`);
+      const res = await fetch(`/api/history/${student.id}`);
       if (res.ok) {
         const result = await res.json();
         if (result.data && result.data.some(r => r.score_date === todayStr)) {
@@ -706,7 +706,7 @@ async function renderCheckinPage() {
       let result;
       try {
         // â”€â”€ Call real FastAPI server â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        const res = await fetch('http://127.0.0.1:8000/api/checkin', {
+        const res = await fetch('/api/checkin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -808,7 +808,7 @@ async function renderAnalyticsPage() {
 
   // 1. Fetch check-in history
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/history/${student.id}`);
+    const res = await fetch(`/api/history/${student.id}`);
     if (res.ok) {
       const result = await res.json();
       history = result.data || [];
@@ -819,7 +819,7 @@ async function renderAnalyticsPage() {
 
   // 2. Fetch student subjects from API or LocalStorage
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/subjects/${student.id}`);
+    const res = await fetch(`/api/subjects/${student.id}`);
     if (res.ok) {
       const data = await res.json();
       userSubjects = data.subjects || [];
@@ -1063,7 +1063,7 @@ async function saveStudentSubject() {
   };
 
   try {
-    await fetch('http://127.0.0.1:8000/api/subjects', {
+    await fetch('/api/subjects', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -1086,7 +1086,7 @@ async function deleteStudentSubject(subjectId, idx) {
   const student = AcademiData.currentStudent;
   if (subjectId && subjectId !== 'null') {
     try {
-      await fetch(`http://127.0.0.1:8000/api/subjects/${subjectId}`, { method: 'DELETE' });
+      await fetch(`/api/subjects/${subjectId}`, { method: 'DELETE' });
     } catch (e) {}
   }
   const key = 'academicare_subjects_' + (student.email || 'guest');
@@ -1129,15 +1129,15 @@ async function renderCounselorPage() {
 
   try {
     // 1. Fetch pending alerts
-    let res = await fetch('http://127.0.0.1:8000/api/counselor/alerts?status=pending');
+    let res = await fetch('/api/counselor/alerts?status=pending');
     if (res.ok) pendingAlerts = (await res.json()).alerts;
 
     // 2. Fetch resolved alerts
-    res = await fetch('http://127.0.0.1:8000/api/counselor/alerts?status=resolved');
+    res = await fetch('/api/counselor/alerts?status=resolved');
     if (res.ok) resolvedAlerts = (await res.json()).alerts;
 
     // 3. Fetch all students for batch statistics
-    res = await fetch('http://127.0.0.1:8000/api/students');
+    res = await fetch('/api/students');
     if (res.ok) students = (await res.json()).students;
   } catch (err) {
     console.warn("Backend offline, using fallback counselor board statistics:", err.message);
@@ -1180,7 +1180,7 @@ async function renderCounselorPage() {
   window.resolveAlert = async function(token, anonId) {
     showToast('ðŸ”', `Resolving alert ${anonId}...`, 'info');
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/counselor/alerts/${token}/resolve`, {
+      const res = await fetch(`/api/counselor/alerts/${token}/resolve`, {
         method: 'POST'
       });
       if (res.ok) {
@@ -1349,7 +1349,7 @@ async function renderGroupsPage() {
   let isOffline = false;
 
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/dashboard/${student.id}`);
+    const res = await fetch(`/api/dashboard/${student.id}`);
     if (res.ok) {
       const data = await res.json();
       latestCheckin = data.latest_checkin;
