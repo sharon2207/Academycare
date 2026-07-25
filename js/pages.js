@@ -1,4 +1,4 @@
-// =============================================
+﻿// =============================================
 // AcademiCare  Page Renderer
 // All inner pages rendered dynamically
 // =============================================
@@ -183,11 +183,11 @@ async function renderDashboardPage() {
   //   FORCE DAILY CHECK-IN 
   if (!isOffline) {
     if (!latestCheckin) {
-      showToast('🤖', `Welcome ${student.name}! Please complete your first Daily Check-in to analyze your burnout score.`, 'info');
+      showToast('ðŸ¤–', `Welcome ${student.name}! Please complete your first Daily Check-in to analyze your burnout score.`, 'info');
       showPage('checkin');
       return;
     } else if (!hasCheckedInToday) {
-      showToast('📅', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
+      showToast('ðŸ“…', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
       showPage('checkin');
       return;
     }
@@ -492,7 +492,7 @@ async function renderCheckinPage() {
         </div>
         <div class="page-content">
           <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:48px 24px;text-align:center;max-width:540px;margin:30px auto;box-shadow:0 10px 30px rgba(0,0,0,0.5)">
-            <div style="font-size:3.5rem;margin-bottom:12px">📅</div>
+            <div style="font-size:3.5rem;margin-bottom:12px">ðŸ“…</div>
             <h2 style="color:white;font-size:1.4rem;margin-bottom:8px;font-weight:700">Check-In Already Completed Today!</h2>
             <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.6;margin-bottom:24px">
               Hi <strong>${student.name}</strong>, you have already submitted your daily check-in for today (<code>${todayStr}</code>). To ensure accurate 30-day analytics and prevent data skewing, check-ins are limited to <strong>once per day</strong>. Come back tomorrow!
@@ -764,7 +764,7 @@ async function renderCheckinPage() {
           </div>
         </div>
         <div class="result-recs">
-          <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px">🤖 AI Recommendations for You</div>
+          <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px">ðŸ¤– AI Recommendations for You</div>
           <div class="rec-list">
             ${recs.map(r => `<div class="rec-item"><span class="rec-icon">${r.icon||''}</span><div class="rec-text"><strong>${r.title}</strong>${r.text||r.body_text||''}</div></div>`).join('')}
           </div>
@@ -1364,7 +1364,7 @@ async function renderGroupsPage() {
 
   //   FORCE DAILY CHECK-IN BEFORE ACCESSING GROUPS 
   if (!isOffline && !hasCheckedInToday) {
-    showToast('📅', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
+    showToast('ðŸ“…', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
     showPage('checkin');
     return;
   }
