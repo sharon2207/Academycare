@@ -1,5 +1,5 @@
-﻿// =============================================
-// AcademiCare — Page Renderer
+// =============================================
+// AcademiCare  Page Renderer
 // All inner pages rendered dynamically
 // =============================================
 
@@ -142,11 +142,11 @@ function renderRegisterPage() {
 async function renderDashboardPage() {
   const student = AcademiData.currentStudent;
   
-  // â”€â”€ Show Loading Skeleton while fetching â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Show Loading Skeleton while fetching 
   document.getElementById('page-dashboard').innerHTML = `
     <div class="inner-page-wrap">
       <div style="text-align:center;padding:120px 20px">
-        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block">âš™ï¸</div>
+        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block"></div>
         <div style="font-size:1.1rem;font-weight:600;margin-bottom:8px;color:white">Syncing with AcademiCare Database...</div>
         <div style="font-size:0.8rem;color:var(--text-muted)">Querying: GET /api/dashboard/${student.id}</div>
       </div>
@@ -180,14 +180,14 @@ async function renderDashboardPage() {
   const todayStr = new Date().toLocaleDateString('sv').substring(0, 10);
   const hasCheckedInToday = latestCheckin && latestCheckin.checkin_date === todayStr;
 
-  // â”€â”€ ðŸš¨ FORCE DAILY CHECK-IN â”€â”€â”€â”€â”€â”€â”€
+  //   FORCE DAILY CHECK-IN 
   if (!isOffline) {
     if (!latestCheckin) {
-      showToast('ðŸ¤–', `Welcome ${student.name}! Please complete your first Daily Check-in to analyze your burnout score.`, 'info');
+      showToast('🤖', `Welcome ${student.name}! Please complete your first Daily Check-in to analyze your burnout score.`, 'info');
       showPage('checkin');
       return;
     } else if (!hasCheckedInToday) {
-      showToast('ðŸ—“ï¸', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
+      showToast('📅', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
       showPage('checkin');
       return;
     }
@@ -210,12 +210,12 @@ async function renderDashboardPage() {
   const resilience = AcademiData.resilienceScore;
 
   const iconMap = {
-    sleep: 'ðŸ˜´',
-    study: 'ðŸ“š',
-    mental: 'ðŸ§˜',
-    physical: 'ðŸƒ',
-    social: 'ðŸ‘¥',
-    general: 'âœ…'
+    sleep: '',
+    study: '',
+    mental: '',
+    physical: '',
+    social: '',
+    general: ''
   };
 
   const recsList = recommendations.length > 0 ? recommendations : [
@@ -227,15 +227,15 @@ async function renderDashboardPage() {
     <div class="inner-page-wrap">
       <div class="page-header">
         <div class="page-header-inner">
-          <button class="back-btn" onclick="showPage('landing')">â† Home</button>
+          <button class="back-btn" onclick="showPage('landing')"> Home</button>
           <div class="page-title-area">
             <div class="page-title">Student Dashboard</div>
-            <div class="page-subtitle">Welcome back, <strong>${student.name}</strong> Â· ${student.department} Year ${student.year} Â· ${new Date().toLocaleDateString('en-IN', {weekday:'long', day:'numeric', month:'long', year:'numeric'})}</div>
+            <div class="page-subtitle">Welcome back, <strong>${student.name}</strong>  |  ${student.department} Year ${student.year}  |  ${new Date().toLocaleDateString('en-IN', {weekday:'long', day:'numeric', month:'long', year:'numeric'})}</div>
           </div>
           <div style="display:flex;gap:8px;align-items:center">
-            <button class="btn-primary" onclick="showPage('checkin')">ðŸ“‹ Daily Check-in</button>
-            <button class="btn-outline" onclick="showPage('analytics')">ðŸ“Š Analytics</button>
-            <button onclick="logout()" style="padding:8px 14px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#f87171;font-size:0.75rem;cursor:pointer;">ðŸšª Logout</button>
+            <button class="btn-primary" onclick="showPage('checkin')"> Daily Check-in</button>
+            <button class="btn-outline" onclick="showPage('analytics')"> Analytics</button>
+            <button onclick="logout()" style="padding:8px 14px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#f87171;font-size:0.75rem;cursor:pointer;"> Logout</button>
           </div>
         </div>
       </div>
@@ -257,10 +257,10 @@ async function renderDashboardPage() {
           </div>
           <div class="stats-bar-item">
             <div class="sbi-value" style="color: var(--green)">${student.streak || 0}</div>
-            <div class="sbi-label">Day Streak ðŸ”¥</div>
+            <div class="sbi-label">Day Streak </div>
           </div>
           <div class="stats-bar-item">
-            <div class="sbi-value" style="color: var(--yellow)">${nextExam ? nextExam.daysLeft+'d' : 'â€”'}</div>
+            <div class="sbi-value" style="color: var(--yellow)">${nextExam ? nextExam.daysLeft+'d' : ' - '}</div>
             <div class="sbi-label">${nextExam ? 'Days to '+nextExam.subject.split(' ')[0] : 'No Exams Set'}</div>
           </div>
         </div>
@@ -271,7 +271,7 @@ async function renderDashboardPage() {
           <div class="card col-3">
             <div class="card-header">
               <span class="card-title">AI Burnout Score</span>
-              <span class="card-badge badge-live">â— ${isOffline ? 'OFFLINE DEMO' : 'LIVE'}</span>
+              <span class="card-badge badge-live"> ${isOffline ? 'OFFLINE DEMO' : 'LIVE'}</span>
             </div>
             <div class="burnout-gauge-wrap">
               <svg viewBox="0 0 200 140" class="burnout-gauge-svg" style="width:100%;max-width:200px">
@@ -301,10 +301,10 @@ async function renderDashboardPage() {
                 </defs>
               </svg>
               <div class="burnout-risk-label risk-${s.riskLevel.toLowerCase()}" style="text-align:center">
-                ${s.change >= 0 ? `â¬† +${s.change} from yesterday` : `â¬‡ ${s.change} from yesterday`}
+                ${s.change >= 0 ? ` +${s.change} from yesterday` : ` ${s.change} from yesterday`}
               </div>
               <div style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:6px">
-                Random Forest Â· 12 Features
+                Random Forest  |  12 Features
               </div>
             </div>
           </div>
@@ -316,7 +316,7 @@ async function renderDashboardPage() {
               <span style="font-size:0.75rem;color:var(--text-muted)">Personalized for ${student.name}</span>
             </div>
             <div class="risk-banner ${s.riskLevel.toLowerCase()}">
-              <span class="risk-banner-icon">${s.riskLevel==='Critical'?'ðŸš¨':s.riskLevel==='High'?'âš ï¸':'âœ…'}</span>
+              <span class="risk-banner-icon">${s.riskLevel==='Critical'?'':s.riskLevel==='High'?'':''}</span>
               <div class="risk-banner-text">
                 <h4>${s.riskLevel} Burnout Risk Detected</h4>
                 <p>
@@ -331,7 +331,7 @@ async function renderDashboardPage() {
             <div class="rec-list">
               ${recsList.map(r => `
                 <div class="rec-item">
-                  <span class="rec-icon">${r.icon || iconMap[r.category.toLowerCase()] || 'ðŸ’¡'}</span>
+                  <span class="rec-icon">${r.icon || iconMap[r.category.toLowerCase()] || ''}</span>
                   <div class="rec-text">
                     <strong>${r.title}</strong>
                     ${r.text || r.body_text || ''}
@@ -339,7 +339,7 @@ async function renderDashboardPage() {
                 </div>
               `).join('')}
             </div>
-            <button onclick="showPage('analytics')" style="align-self:flex-start;padding:8px 18px;border-radius:var(--radius-full);background:var(--bg-glass);border:1px solid var(--border);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;transition:var(--transition)">View All Recommendations â†’</button>
+            <button onclick="showPage('analytics')" style="align-self:flex-start;padding:8px 18px;border-radius:var(--radius-full);background:var(--bg-glass);border:1px solid var(--border);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;transition:var(--transition)">View All Recommendations </button>
           </div>
 
           <!-- Today's Metrics -->
@@ -347,17 +347,17 @@ async function renderDashboardPage() {
             <div class="card-header"><span class="card-title">Today's Check-in Data</span></div>
             <div class="metric-row" style="grid-template-columns:1fr 1fr 1fr">
               <div class="metric-card">
-                <div class="metric-icon-label"><span class="metric-icon">ðŸ˜´</span><span class="metric-label">Sleep</span></div>
+                <div class="metric-icon-label"><span class="metric-icon"></span><span class="metric-label">Sleep</span></div>
                 <div class="metric-value" style="color:${currentSleep < 6 ? 'var(--red)' : 'var(--green)'};font-size:1.4rem">${currentSleep}h</div>
                 <div class="metric-change">${currentSleep < 6 ? 'Low (Aim for 7h+)' : 'Good sleep'}</div>
               </div>
               <div class="metric-card">
-                <div class="metric-icon-label"><span class="metric-icon">ðŸ“š</span><span class="metric-label">Study</span></div>
+                <div class="metric-icon-label"><span class="metric-icon"></span><span class="metric-label">Study</span></div>
                 <div class="metric-value" style="font-size:1.4rem">${currentStudy}h</div>
                 <div class="metric-change">${currentStudy > 8 ? 'High intensity' : 'Balanced study'}</div>
               </div>
               <div class="metric-card">
-                <div class="metric-icon-label"><span class="metric-icon">ðŸ˜Š</span><span class="metric-label">Mood</span></div>
+                <div class="metric-icon-label"><span class="metric-icon"></span><span class="metric-label">Mood</span></div>
                 <div class="metric-value" style="color:${currentMood < 5 ? 'var(--red)' : currentMood < 8 ? 'var(--yellow)' : 'var(--green)'};font-size:1.4rem">${currentMood}/10</div>
                 <div class="metric-change">Mood Rating</div>
               </div>
@@ -365,11 +365,11 @@ async function renderDashboardPage() {
             <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
               <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px">Active Stress Flags</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px">
-                ${latestCheckin && latestCheckin.gate_cat_prep ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2)">ðŸŽ¯ GATE Prep</span>' : ''}
-                ${latestCheckin && latestCheckin.placement_anxiety ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(245,158,11,0.1);color:#fbbf24;border:1px solid rgba(245,158,11,0.2)">ðŸ’¼ Placement Season</span>' : ''}
-                ${latestCheckin && latestCheckin.family_stress ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(99,102,241,0.1);color:var(--purple-light);border:1px solid rgba(99,102,241,0.2)">ðŸ‘ª Family Stress</span>' : ''}
-                ${latestCheckin && latestCheckin.social_isolation ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(139,92,246,0.1);color:var(--purple-light);border:1px solid rgba(139,92,246,0.2)">ðŸš¶ Social Isolation</span>' : ''}
-                ${!latestCheckin || (!latestCheckin.gate_cat_prep && !latestCheckin.placement_anxiety && !latestCheckin.family_stress && !latestCheckin.social_isolation) ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.2)">âœ… No Active Stress Triggers</span>' : ''}
+                ${latestCheckin && latestCheckin.gate_cat_prep ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2)"> GATE Prep</span>' : ''}
+                ${latestCheckin && latestCheckin.placement_anxiety ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(245,158,11,0.1);color:#fbbf24;border:1px solid rgba(245,158,11,0.2)"> Placement Season</span>' : ''}
+                ${latestCheckin && latestCheckin.family_stress ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(99,102,241,0.1);color:var(--purple-light);border:1px solid rgba(99,102,241,0.2)"> Family Stress</span>' : ''}
+                ${latestCheckin && latestCheckin.social_isolation ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(139,92,246,0.1);color:var(--purple-light);border:1px solid rgba(139,92,246,0.2)"> Social Isolation</span>' : ''}
+                ${!latestCheckin || (!latestCheckin.gate_cat_prep && !latestCheckin.placement_anxiety && !latestCheckin.family_stress && !latestCheckin.social_isolation) ? '<span style="font-size:0.65rem;padding:3px 8px;border-radius:var(--radius-full);background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.2)"> No Active Stress Triggers</span>' : ''}
               </div>
             </div>
           </div>
@@ -385,7 +385,7 @@ async function renderDashboardPage() {
             </div>
             ${exams.length === 0 ? `
               <div style="text-align:center;padding:24px 16px;color:var(--text-muted)">
-                <div style="font-size:2rem;margin-bottom:8px">ðŸ“…</div>
+                <div style="font-size:2rem;margin-bottom:8px"></div>
                 <div style="font-size:0.85rem;font-weight:500;margin-bottom:6px">No exams added yet</div>
                 <div style="font-size:0.75rem;margin-bottom:12px">Add your exam dates and we'll predict stress levels</div>
                 <button onclick="openAddExamModal()" style="padding:8px 16px;border-radius:var(--radius-full);background:var(--purple);color:white;border:none;font-size:0.75rem;cursor:pointer;">+ Add Your Exams</button>
@@ -397,12 +397,12 @@ async function renderDashboardPage() {
                   <div class="exam-dot ${e.status}">${e.daysLeft}d</div>
                   <div class="exam-content">
                     <div class="exam-subject">${e.subject}</div>
-                    <div class="exam-date">${new Date(e.examDate).toLocaleDateString('en-IN',{day:'numeric',month:'short'})} Â· ${e.code||''}</div>
+                    <div class="exam-date">${new Date(e.examDate).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}  |  ${e.code||''}</div>
                     <span class="exam-prediction pred-${e.predictedStress > 70 ? 'high' : e.predictedStress > 50 ? 'medium' : 'low'}">
-                      ðŸ”® Predicted stress: ${e.predictedStress}/100
+                       Predicted stress: ${e.predictedStress}/100
                     </span>
                   </div>
-                  <button onclick="deleteExam('${e.subject}')" style="font-size:0.6rem;padding:2px 6px;border-radius:4px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#f87171;cursor:pointer;">âœ•</button>
+                  <button onclick="deleteExam('${e.subject}')" style="font-size:0.6rem;padding:2px 6px;border-radius:4px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#f87171;cursor:pointer;"></button>
                 </div>
               `).join('')}
             </div>
@@ -411,9 +411,9 @@ async function renderDashboardPage() {
 
           <!-- Resilience Score -->
           <div class="card col-4">
-            <div class="card-header"><span class="card-title">Resilience Recovery Score</span><span style="font-size:0.7rem;color:var(--green)">â†‘ Improving</span></div>
+            <div class="card-header"><span class="card-title">Resilience Recovery Score</span><span style="font-size:0.7rem;color:var(--green)"> Improving</span></div>
             <div class="resilience-score-big">${resilience.current}</div>
-            <div style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-bottom:16px">out of 100 â€” How well you recover after burnout</div>
+            <div style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-bottom:16px">out of 100  -  How well you recover after burnout</div>
             <div class="resilience-progress">
               <div class="resilience-bar" style="width:${resilience.current}%"></div>
             </div>
@@ -431,13 +431,13 @@ async function renderDashboardPage() {
                 </div>
               `).join('')}
             </div>
-            <div style="margin-top:12px;font-size:0.7rem;color:var(--text-muted)">Avg Recovery: ${resilience.avgRecoveryDays} days Â· 3 episodes tracked</div>
+            <div style="margin-top:12px;font-size:0.7rem;color:var(--text-muted)">Avg Recovery: ${resilience.avgRecoveryDays} days  |  3 episodes tracked</div>
           </div>
 
           <!-- 7-Day LSTM Prediction -->
           <div class="card col-12">
             <div class="card-header">
-              <span class="card-title">LSTM Stress Trajectory â€” 7 Day Forecast</span>
+              <span class="card-title">LSTM Stress Trajectory  -  7 Day Forecast</span>
               <div class="chart-legend">
                 <div class="legend-item"><span class="legend-dot" style="background:var(--purple)"></span>Historical Score</div>
                 <div class="legend-item"><span class="legend-dot" style="background:var(--red);"></span>LSTM Prediction</div>
@@ -483,7 +483,7 @@ async function renderCheckinPage() {
       <div class="inner-page-wrap">
         <div class="page-header">
           <div class="page-header-inner">
-            <button class="back-btn" onclick="showPage('dashboard')">â† Dashboard</button>
+            <button class="back-btn" onclick="showPage('dashboard')"> Dashboard</button>
             <div class="page-title-area">
               <div class="page-title">Daily Check-In Status</div>
               <div class="page-subtitle">${new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})}</div>
@@ -492,14 +492,14 @@ async function renderCheckinPage() {
         </div>
         <div class="page-content">
           <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:48px 24px;text-align:center;max-width:540px;margin:30px auto;box-shadow:0 10px 30px rgba(0,0,0,0.5)">
-            <div style="font-size:3.5rem;margin-bottom:12px">ðŸ—“ï¸</div>
+            <div style="font-size:3.5rem;margin-bottom:12px">📅</div>
             <h2 style="color:white;font-size:1.4rem;margin-bottom:8px;font-weight:700">Check-In Already Completed Today!</h2>
             <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.6;margin-bottom:24px">
               Hi <strong>${student.name}</strong>, you have already submitted your daily check-in for today (<code>${todayStr}</code>). To ensure accurate 30-day analytics and prevent data skewing, check-ins are limited to <strong>once per day</strong>. Come back tomorrow!
             </p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-              <button class="btn-primary" onclick="showPage('analytics')">ðŸ“Š View Your Analytics</button>
-              <button class="btn-hero-secondary" onclick="showPage('dashboard')">ðŸ  Go to Dashboard</button>
+              <button class="btn-primary" onclick="showPage('analytics')"> View Your Analytics</button>
+              <button class="btn-hero-secondary" onclick="showPage('dashboard')"> Go to Dashboard</button>
             </div>
           </div>
         </div>
@@ -516,10 +516,10 @@ async function renderCheckinPage() {
     <div class="inner-page-wrap">
       <div class="page-header">
         <div class="page-header-inner">
-          <button class="back-btn" onclick="showPage('dashboard')">â† Dashboard</button>
+          <button class="back-btn" onclick="showPage('dashboard')"> Dashboard</button>
           <div class="page-title-area">
             <div class="page-title">Daily Check-In</div>
-            <div class="page-subtitle">2-minute wellness check Â· ${new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})}</div>
+            <div class="page-subtitle">2-minute wellness check  |  ${new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})}</div>
           </div>
         </div>
       </div>
@@ -532,13 +532,13 @@ async function renderCheckinPage() {
 
             <!-- Step 1: Mood -->
             <div class="checkin-step active" id="step-1">
-              <div class="step-title">ðŸ˜Š How are you feeling today?</div>
+              <div class="step-title"> How are you feeling today?</div>
               <div class="step-subtitle">Rate your overall mood on a scale of 1 (terrible) to 10 (amazing)</div>
               <div class="mood-grid" id="moodGrid">
                 ${[
-                  {v:1,e:'ðŸ˜­',l:'Terrible'},{v:2,e:'ðŸ˜¢',l:'Very Bad'},{v:3,e:'ðŸ˜ž',l:'Bad'},
-                  {v:4,e:'ðŸ˜•',l:'Low'},{v:5,e:'ðŸ˜',l:'Neutral'},{v:6,e:'ðŸ™‚',l:'Okay'},
-                  {v:7,e:'ðŸ˜Š',l:'Good'},{v:8,e:'ðŸ˜„',l:'Great'},{v:9,e:'ðŸ˜',l:'Excellent'},{v:10,e:'ðŸ¤©',l:'Amazing'}
+                  {v:1,e:'',l:'Terrible'},{v:2,e:'',l:'Very Bad'},{v:3,e:'',l:'Bad'},
+                  {v:4,e:'',l:'Low'},{v:5,e:'',l:'Neutral'},{v:6,e:'',l:'Okay'},
+                  {v:7,e:'',l:'Good'},{v:8,e:'',l:'Great'},{v:9,e:'',l:'Excellent'},{v:10,e:'',l:'Amazing'}
                 ].map(m => `
                   <div class="mood-btn ${m.v===7?'selected':''}" id="mood-${m.v}" onclick="selectMood(${m.v})">
                     <span class="emoji">${m.e}</span>
@@ -548,17 +548,17 @@ async function renderCheckinPage() {
               </div>
               <div class="checkin-nav">
                 <span></span>
-                <button class="btn-checkin-next" onclick="nextStep(1)">Next â†’</button>
+                <button class="btn-checkin-next" onclick="nextStep(1)">Next </button>
               </div>
             </div>
 
             <!-- Step 2: Sleep & Study -->
             <div class="checkin-step" id="step-2">
-              <div class="step-title">ðŸ’¤ Sleep & Study Hours</div>
+              <div class="step-title"> Sleep & Study Hours</div>
               <div class="step-subtitle">Log last night's sleep and today's planned study hours</div>
               <div class="slider-group">
                 <div class="slider-header">
-                  <span class="slider-label">ðŸ˜´ Sleep Hours Last Night</span>
+                  <span class="slider-label"> Sleep Hours Last Night</span>
                   <span class="slider-value" id="sleepVal">7.0 hours</span>
                 </div>
                 <input type="range" class="range-input" id="sleepSlider" min="1" max="12" step="0.5" value="7"
@@ -569,7 +569,7 @@ async function renderCheckinPage() {
               </div>
               <div class="slider-group">
                 <div class="slider-header">
-                  <span class="slider-label">ðŸ“š Study Hours Today</span>
+                  <span class="slider-label"> Study Hours Today</span>
                   <span class="slider-value" id="studyVal">5.0 hours</span>
                 </div>
                 <input type="range" class="range-input" id="studySlider" min="0" max="16" step="0.5" value="5"
@@ -580,7 +580,7 @@ async function renderCheckinPage() {
               </div>
               <div class="slider-group" style="margin-top:16px">
                 <div class="slider-header">
-                  <span class="slider-label">ðŸ“± Social Media Screen Time</span>
+                  <span class="slider-label"> Social Media Screen Time</span>
                   <span class="slider-value" id="socialVal">2.0 hours</span>
                 </div>
                 <input type="range" class="range-input" id="socialSlider" min="0" max="10" step="0.5" value="2"
@@ -590,48 +590,48 @@ async function renderCheckinPage() {
                 </div>
               </div>
               <div class="checkin-nav">
-                <button class="btn-checkin-back" onclick="prevStep(2)">â† Back</button>
-                <button class="btn-checkin-next" onclick="nextStep(2)">Next â†’</button>
+                <button class="btn-checkin-back" onclick="prevStep(2)"> Back</button>
+                <button class="btn-checkin-next" onclick="nextStep(2)">Next </button>
               </div>
             </div>
 
             <!-- Step 3: Stress Triggers -->
             <div class="checkin-step" id="step-3">
-              <div class="step-title">ðŸŽ¯ Active Stress Triggers</div>
+              <div class="step-title"> Active Stress Triggers</div>
               <div class="step-subtitle">Select any pressures you're currently facing (Indian context-aware)</div>
               <div class="additional-fields">
                 <div class="toggle-field" id="tog-placement" onclick="toggleFlag('placement','tog-placement')">
-                  <span class="tf-icon">ðŸ’¼</span>
+                  <span class="tf-icon"></span>
                   <span class="tf-label">Placement Season Pressure</span>
-                  <div class="tf-check">âœ“</div>
+                  <div class="tf-check"></div>
                 </div>
                 <div class="toggle-field" id="tog-gate" onclick="toggleFlag('gate','tog-gate')">
-                  <span class="tf-icon">ðŸŽ“</span>
+                  <span class="tf-icon"></span>
                   <span class="tf-label">GATE / CAT Preparation</span>
-                  <div class="tf-check">âœ“</div>
+                  <div class="tf-check"></div>
                 </div>
                 <div class="toggle-field" id="tog-family" onclick="toggleFlag('family','tog-family')">
-                  <span class="tf-icon">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§</span>
+                  <span class="tf-icon"></span>
                   <span class="tf-label">Family Pressure / Financial Stress</span>
-                  <div class="tf-check">âœ“</div>
+                  <div class="tf-check"></div>
                 </div>
                 <div class="toggle-field" id="tog-isolation" onclick="toggleFlag('isolation','tog-isolation')">
-                  <span class="tf-icon">ðŸš¶</span>
+                  <span class="tf-icon"></span>
                   <span class="tf-label">Feeling Socially Isolated</span>
-                  <div class="tf-check">âœ“</div>
+                  <div class="tf-check"></div>
                 </div>
               </div>
               <div class="slider-group">
                 <div class="slider-header">
-                  <span class="slider-label">ðŸƒ Physical Activity Today</span>
+                  <span class="slider-label"> Physical Activity Today</span>
                   <span class="slider-value" id="actVal">30 min</span>
                 </div>
                 <input type="range" class="range-input" min="0" max="180" step="15" value="30"
                   oninput="document.getElementById('actVal').textContent = this.value + ' min'; window.checkinData.activity = parseFloat(this.value)">
               </div>
               <div class="checkin-nav">
-                <button class="btn-checkin-back" onclick="prevStep(3)">â† Back</button>
-                <button class="btn-checkin-next" onclick="nextStep(3)">Compute Score â†’</button>
+                <button class="btn-checkin-back" onclick="prevStep(3)"> Back</button>
+                <button class="btn-checkin-next" onclick="nextStep(3)">Compute Score </button>
               </div>
             </div>
 
@@ -671,20 +671,20 @@ async function renderCheckinPage() {
       const progNext = document.getElementById('step-prog-'+(step+1));
       if (progNext) progNext.classList.add('active');
     } else {
-      // â”€â”€ Show loading spinner while calling API â”€â”€â”€â”€â”€â”€â”€â”€
+      //  Show loading spinner while calling API 
       document.getElementById('step-4').classList.add('active');
       document.getElementById('checkinResult').innerHTML = `
         <div style="text-align:center;padding:40px 20px">
-          <div style="font-size:2.5rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block">âš™ï¸</div>
+          <div style="font-size:2.5rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block"></div>
           <div style="font-size:1rem;font-weight:600;margin-bottom:8px">Running ML Model...</div>
-          <div style="font-size:0.8rem;color:var(--text-muted)">Random Forest Classifier Â· 13 features Â· SQLite storage</div>
+          <div style="font-size:0.8rem;color:var(--text-muted)">Random Forest Classifier  |  13 features  |  SQLite storage</div>
         </div>
       `;
 
       const nextExamObj = AcademiData.examTimetable[0];
       const daysToNext = nextExamObj ? nextExamObj.daysLeft : 30;
 
-      // â”€â”€ Build API payload from check-in form â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      //  Build API payload from check-in form 
       const payload = {
         student_id:        AcademiData.currentStudent.id || 1,
         mood_score:        window.checkinData.mood  || 7,
@@ -705,7 +705,7 @@ async function renderCheckinPage() {
 
       let result;
       try {
-        // â”€â”€ Call real FastAPI server â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        //  Call real FastAPI server 
         const res = await fetch('/api/checkin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -727,14 +727,14 @@ async function renderCheckinPage() {
           model:      data.model_used
         };
         localStorage.setItem('academicare_last_checkin_' + (student.email || 'guest'), todayStr);
-        showToast('âœ…', `Score saved to DB! Risk: ${data.risk_level}`, 'success');
+        showToast('', `Score saved to DB! Risk: ${data.risk_level}`, 'success');
 
       } catch (err) {
-        // â”€â”€ Fallback: use local mock if server not running â”€
+        //  Fallback: use local mock if server not running 
         console.warn('API not reachable, using local computation:', err.message);
         const localResult = computeBurnoutScore(window.checkinData);
         result = { ...localResult, fromAPI: false, stored: 'Local (server offline)' };
-        showToast('âš ï¸', 'Server offline â€” using local model estimate', 'warning');
+        showToast('', 'Server offline  -  using local model estimate', 'warning');
       }
 
       const recs = result.recs || AcademiData.recommendations.slice(0, 3);
@@ -747,35 +747,35 @@ async function renderCheckinPage() {
           </div>
           <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px">
             <span style="font-size:0.7rem;padding:3px 10px;border-radius:var(--radius-full);background:${result.fromAPI?'rgba(16,185,129,0.15)':'rgba(245,158,11,0.15)'};border:1px solid ${result.fromAPI?'rgba(16,185,129,0.3)':'rgba(245,158,11,0.3)'};color:${result.fromAPI?'var(--green)':'var(--yellow)'}">
-              ${result.fromAPI ? 'ðŸ”´ LIVE â€” Real Random Forest' : 'âš¡ Local estimate (start server)'}
+              ${result.fromAPI ? ' LIVE  -  Real Random Forest' : ' Local estimate (start server)'}
             </span>
             <span style="font-size:0.7rem;padding:3px 10px;border-radius:var(--radius-full);background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);color:var(--purple-light)">
-              ðŸ’¾ ${result.stored || 'academiccare.db'}
+               ${result.stored || 'academiccare.db'}
             </span>
-            ${result.cluster ? `<span style="font-size:0.7rem;padding:3px 10px;border-radius:var(--radius-full);background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);color:var(--violet)">ðŸ‘¥ Peer Cluster ${result.cluster}</span>` : ''}
+            ${result.cluster ? `<span style="font-size:0.7rem;padding:3px 10px;border-radius:var(--radius-full);background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);color:var(--violet)"> Peer Cluster ${result.cluster}</span>` : ''}
           </div>
-          <div style="font-size:0.7rem;color:var(--text-muted);margin-top:6px">12 ML features analyzed Â· ${result.model || 'RandomForestClassifier (200 trees)'}</div>
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-top:6px">12 ML features analyzed  |  ${result.model || 'RandomForestClassifier (200 trees)'}</div>
         </div>
         <div class="risk-banner ${result.riskLevel.toLowerCase()}" style="text-align:left;margin-bottom:20px">
-          <span class="risk-banner-icon">${result.riskLevel==='Critical'?'ðŸš¨':result.riskLevel==='High'?'âš ï¸':result.riskLevel==='Moderate'?'âš¡':'âœ…'}</span>
+          <span class="risk-banner-icon">${result.riskLevel==='Critical'?'':result.riskLevel==='High'?'':result.riskLevel==='Moderate'?'':''}</span>
           <div class="risk-banner-text">
             <h4>${result.riskLevel} Burnout Risk</h4>
             <p>${result.riskLevel==='Critical'?'Counselor has been anonymously notified. Please reach out for support.':result.riskLevel==='High'?'Immediate wellness intervention recommended. Check recommendations below.':result.riskLevel==='Moderate'?'Monitor your wellness. Small changes can prevent escalation.':'Great job! Keep maintaining these healthy habits.'}</p>
           </div>
         </div>
         <div class="result-recs">
-          <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px">ðŸ¤– AI Recommendations for You</div>
+          <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px">🤖 AI Recommendations for You</div>
           <div class="rec-list">
-            ${recs.map(r => `<div class="rec-item"><span class="rec-icon">${r.icon||'ðŸ’¡'}</span><div class="rec-text"><strong>${r.title}</strong>${r.text||r.body_text||''}</div></div>`).join('')}
+            ${recs.map(r => `<div class="rec-item"><span class="rec-icon">${r.icon||''}</span><div class="rec-text"><strong>${r.title}</strong>${r.text||r.body_text||''}</div></div>`).join('')}
           </div>
         </div>
         <div style="display:flex;gap:12px;margin-top:24px;justify-content:center;flex-wrap:wrap">
-          <button class="btn-checkin-next" onclick="showPage('dashboard')">View Dashboard â†’</button>
+          <button class="btn-checkin-next" onclick="showPage('dashboard')">View Dashboard </button>
           <button class="btn-checkin-back" onclick="showPage('analytics')">See Analytics</button>
           ${result.riskLevel==='Critical'?'<button class="btn-checkin-back" style="border-color:var(--red);color:var(--red)" onclick="showPage(\'counselor\')">Contact Counselor</button>':''}
         </div>
         ${result.riskLevel==='Critical'?`<div class="preview-alert" style="margin-top:16px"><span class="alert-dot critical"></span>Anonymous alert saved to DB + Firebase FCM triggered</div>`:''}
-        ${result.fromAPI ? `<div style="margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);font-size:0.7rem;color:var(--text-muted)">âœ… Check-in saved to <strong>academiccare.db</strong> Â· Score computed by real <strong>Random Forest .pkl</strong> Â· Recommendations generated by ML engine</div>` : `<div style="margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);font-size:0.7rem;color:var(--text-muted)">âš¡ Start the server with <code>python simple_server.py</code> to enable real storage</div>`}
+        ${result.fromAPI ? `<div style="margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);font-size:0.7rem;color:var(--text-muted)"> Check-in saved to <strong>academiccare.db</strong>  |  Score computed by real <strong>Random Forest .pkl</strong>  |  Recommendations generated by ML engine</div>` : `<div style="margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);font-size:0.7rem;color:var(--text-muted)"> Start the server with <code>python simple_server.py</code> to enable real storage</div>`}
       `;
     }
   };
@@ -797,7 +797,7 @@ async function renderAnalyticsPage() {
   document.getElementById('page-analytics').innerHTML = `
     <div class="inner-page-wrap">
       <div style="text-align:center;padding:120px 20px">
-        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block">âš™ï¸</div>
+        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block"></div>
         <div style="font-size:1.1rem;font-weight:600;color:white;margin-bottom:8px">Loading Academic &amp; Wellness Analytics...</div>
       </div>
     </div>
@@ -852,12 +852,12 @@ async function renderAnalyticsPage() {
     <div class="inner-page-wrap">
       <div class="page-header">
         <div class="page-header-inner">
-          <button class="back-btn" onclick="showPage('dashboard')">â† Dashboard</button>
+          <button class="back-btn" onclick="showPage('dashboard')"> Dashboard</button>
           <div class="page-title-area">
             <div class="page-title">Academic &amp; Wellness Analytics</div>
             <div class="page-subtitle">Student Profile: <strong>${student.name}</strong> (${student.department || 'MCA'})</div>
           </div>
-          <button class="btn-primary" onclick="openSubjectModal()">âž• Add / Manage Subjects</button>
+          <button class="btn-primary" onclick="openSubjectModal()"> Add / Manage Subjects</button>
         </div>
       </div>
       <div class="page-content">
@@ -865,15 +865,15 @@ async function renderAnalyticsPage() {
         <!-- SUBJECT MANAGEMENT SECTION -->
         <div class="chart-card" style="margin-bottom:24px">
           <div class="chart-header">
-            <span class="chart-title">ðŸ“š Enrolled Subjects &amp; Complexity Ratings</span>
-            <button class="btn-outline" onclick="openSubjectModal()" style="font-size:0.75rem;padding:4px 10px">âž• Add Subject</button>
+            <span class="chart-title"> Enrolled Subjects &amp; Complexity Ratings</span>
+            <button class="btn-outline" onclick="openSubjectModal()" style="font-size:0.75rem;padding:4px 10px"> Add Subject</button>
           </div>
           ${!hasSubjects ? `
             <div style="text-align:center;padding:32px 16px;color:var(--text-muted)">
-              <div style="font-size:2rem;margin-bottom:8px">ðŸ“</div>
+              <div style="font-size:2rem;margin-bottom:8px"></div>
               <div style="font-weight:600;font-size:0.9rem;color:white;margin-bottom:4px">No Subjects Added Yet</div>
               <div style="font-size:0.8rem;margin-bottom:16px;max-width:480px;margin-left:auto;margin-right:auto">Please add your current semester subjects, set their complexity rating, attendance %, and internal marks to generate your personalized performance &amp; stress analytics.</div>
-              <button class="btn-primary" onclick="openSubjectModal()">âž• Add Your First Subject</button>
+              <button class="btn-primary" onclick="openSubjectModal()"> Add Your First Subject</button>
             </div>
           ` : `
             <div style="overflow-x:auto;margin-top:8px">
@@ -910,14 +910,14 @@ async function renderAnalyticsPage() {
         <!-- ANALYTICS GRAPHS SECTION -->
         ${(!hasHistory && !hasSubjects) ? `
           <div style="background:var(--bg-glass);border:1px dashed var(--border);border-radius:16px;padding:48px 24px;text-align:center;margin-top:20px">
-            <div style="font-size:3rem;margin-bottom:12px">ðŸ“Š</div>
+            <div style="font-size:3rem;margin-bottom:12px"></div>
             <h3 style="color:white;font-size:1.2rem;margin-bottom:8px">No Input Data Available for Analytics Graphs</h3>
             <p style="color:var(--text-muted);max-width:540px;margin:0 auto 20px;font-size:0.85rem">
               AcademiCare does not generate arbitrary or fake graphs. Analytics graphs and 30-day burnout trend predictions are plotted strictly after you log your daily check-in and enter your enrolled subjects.
             </p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-              <button class="btn-primary" onclick="openSubjectModal()">âž• Add Enrolled Subjects</button>
-              <button class="btn-hero-secondary" onclick="showPage('checkin')">ðŸ“ Log Daily Check-In</button>
+              <button class="btn-primary" onclick="openSubjectModal()"> Add Enrolled Subjects</button>
+              <button class="btn-hero-secondary" onclick="showPage('checkin')"> Log Daily Check-In</button>
             </div>
           </div>
         ` : `
@@ -925,7 +925,7 @@ async function renderAnalyticsPage() {
             <!-- 30-Day Burnout Trend -->
             <div class="chart-card" style="grid-column:span 2">
               <div class="chart-header">
-                <span class="chart-title">ðŸ“ˆ Burnout Score &amp; Wellness Trend</span>
+                <span class="chart-title"> Burnout Score &amp; Wellness Trend</span>
                 <div class="chart-legend">
                   <div class="legend-item"><span class="legend-dot" style="background:#6366f1"></span>Burnout Score</div>
                   <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span>Sleep Hours</div>
@@ -944,7 +944,7 @@ async function renderAnalyticsPage() {
             <!-- Attendance vs Internal Marks -->
             <div class="chart-card">
               <div class="chart-header">
-                <span class="chart-title">ðŸ”— Attendance vs. Internal Marks Chart</span>
+                <span class="chart-title"> Attendance vs. Internal Marks Chart</span>
                 <span style="font-size:0.7rem;color:var(--text-muted)">Your Enrolled Subjects</span>
               </div>
               ${!hasSubjects ? `
@@ -959,7 +959,7 @@ async function renderAnalyticsPage() {
             <!-- Random Forest Feature Importance -->
             <div class="chart-card">
               <div class="chart-header">
-                <span class="chart-title">ðŸŒ³ Random Forest Model Feature Weights</span>
+                <span class="chart-title"> Random Forest Model Feature Weights</span>
                 <span style="font-size:0.7rem;color:var(--purple-light)">ML Weights</span>
               </div>
               <div class="chart-canvas-wrap">
@@ -976,8 +976,8 @@ async function renderAnalyticsPage() {
     <div id="subject-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:99999;align-items:center;justify-content:center">
       <div style="background:#18181b;border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:24px;width:90%;max-width:460px;box-shadow:0 20px 40px rgba(0,0,0,0.6)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px">
-          <h3 style="margin:0;font-size:1.1rem;color:white;font-weight:700">âž• Add Enrolled Subject</h3>
-          <button onclick="closeSubjectModal()" style="background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer">âœ•</button>
+          <h3 style="margin:0;font-size:1.1rem;color:white;font-weight:700"> Add Enrolled Subject</h3>
+          <button onclick="closeSubjectModal()" style="background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer"></button>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px">
           <div>
@@ -992,11 +992,11 @@ async function renderAnalyticsPage() {
             <div>
               <label class="form-label">Subject Complexity</label>
               <select id="sub-complexity" class="form-select">
-                <option value="1">1 â€” Easy / Basic</option>
-                <option value="2">2 â€” Moderate</option>
-                <option value="3" selected>3 â€” Challenging</option>
-                <option value="4">4 â€” Hard</option>
-                <option value="5">5 â€” Extremely High</option>
+                <option value="1">1  -  Easy / Basic</option>
+                <option value="2">2  -  Moderate</option>
+                <option value="3" selected>3  -  Challenging</option>
+                <option value="4">4  -  Hard</option>
+                <option value="5">5  -  Extremely High</option>
               </select>
             </div>
           </div>
@@ -1022,7 +1022,7 @@ async function renderAnalyticsPage() {
   }, 100);
 }
 
-// â”€â”€ SUBJECT MANAGEMENT MODAL & HANDLERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  SUBJECT MANAGEMENT MODAL & HANDLERS 
 function openSubjectModal() {
   const modal = document.getElementById('subject-modal');
   if (modal) modal.style.display = 'flex';
@@ -1042,7 +1042,7 @@ async function saveStudentSubject() {
   const markEl = document.getElementById('sub-marks');
 
   if (!nameEl || !nameEl.value.trim()) {
-    showToast('âš ï¸', 'Please enter a subject name', 'warning');
+    showToast('', 'Please enter a subject name', 'warning');
     return;
   }
 
@@ -1077,7 +1077,7 @@ async function saveStudentSubject() {
   existing.push(payload);
   localStorage.setItem(key, JSON.stringify(existing));
 
-  showToast('âœ…', `Added "${name}" (Complexity Level ${complexity})!`, 'success');
+  showToast('', `Added "${name}" (Complexity Level ${complexity})!`, 'success');
   closeSubjectModal();
   renderAnalyticsPage();
 }
@@ -1096,7 +1096,7 @@ async function deleteStudentSubject(subjectId, idx) {
     localStorage.setItem(key, JSON.stringify(existing));
   }
 
-  showToast('ðŸ—‘ï¸', 'Subject removed', 'info');
+  showToast('', 'Subject removed', 'info');
   renderAnalyticsPage();
 }
 
@@ -1115,7 +1115,7 @@ async function renderCounselorPage() {
   document.getElementById('page-counselor').innerHTML = `
     <div class="inner-page-wrap">
       <div style="text-align:center;padding:120px 20px">
-        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block">âš™ï¸</div>
+        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block"></div>
         <div style="font-size:1.1rem;font-weight:600;color:white;margin-bottom:8px">Accessing Secure Counselor Board...</div>
         <div style="font-size:0.8rem;color:var(--text-muted)">GET /api/counselor/alerts &amp; GET /api/students</div>
       </div>
@@ -1144,7 +1144,7 @@ async function renderCounselorPage() {
     isOffline = true;
   }
 
-  // â”€â”€ Calculate dynamic batch statistics from SQLite data â”€â”€â”€â”€â”€â”€
+  //  Calculate dynamic batch statistics from SQLite data 
   let totalStudents = students.length || 3;
   let riskDistribution = { low: 0, moderate: 0, high: 0, critical: 0 };
   let sumScore = 0;
@@ -1178,19 +1178,19 @@ async function renderCounselorPage() {
 
   // Global helper to resolve alert on backend SQLite
   window.resolveAlert = async function(token, anonId) {
-    showToast('ðŸ”', `Resolving alert ${anonId}...`, 'info');
+    showToast('', `Resolving alert ${anonId}...`, 'info');
     try {
       const res = await fetch(`/api/counselor/alerts/${token}/resolve`, {
         method: 'POST'
       });
       if (res.ok) {
-        showToast('âœ…', `Alert ${anonId} marked as resolved in DB`, 'success');
+        showToast('', `Alert ${anonId} marked as resolved in DB`, 'success');
         setTimeout(() => renderCounselorPage(), 300); // Reload board
       } else {
         throw new Error('API rejection');
       }
     } catch (err) {
-      showToast('âš ï¸', 'Server offline â€” marking resolved in session', 'warning');
+      showToast('', 'Server offline  -  marking resolved in session', 'warning');
       // Offline fallback: mark resolved in mock array
       const match = AcademiData.counselorAlerts.find(a => a.anonymousId === anonId);
       if (match) match.resolved = true;
@@ -1202,10 +1202,10 @@ async function renderCounselorPage() {
     <div class="inner-page-wrap">
       <div class="page-header">
         <div class="page-header-inner">
-          <button class="back-btn" onclick="showPage('dashboard')">â† Dashboard</button>
+          <button class="back-btn" onclick="showPage('dashboard')"> Dashboard</button>
           <div class="page-title-area">
             <div class="page-title">Counselor Alert Dashboard</div>
-            <div class="page-subtitle">Anonymous student alerts Â· Firebase FCM Â· Real-time monitoring</div>
+            <div class="page-subtitle">Anonymous student alerts  |  Firebase FCM  |  Real-time monitoring</div>
           </div>
           <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3)">
             <span style="width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse-dot 1.5s ease-in-out infinite"></span>
@@ -1248,13 +1248,13 @@ async function renderCounselorPage() {
           <!-- Alert Board -->
           <div>
             <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px">
-              ðŸ”” Active Alerts
-              <span style="font-size:0.7rem;color:var(--text-muted)">(Student identities are anonymous â€” FERPA compliant)</span>
+               Active Alerts
+              <span style="font-size:0.7rem;color:var(--text-muted)">(Student identities are anonymous  -  FERPA compliant)</span>
             </div>
             <div class="alert-board">
               ${pendingAlerts.length === 0 ? `
                 <div style="text-align:center;padding:40px;color:var(--text-muted);background:var(--bg-glass);border-radius:12px;border:1px dashed var(--border)">
-                  <div style="font-size:2rem;margin-bottom:8px">âœ…</div>
+                  <div style="font-size:2rem;margin-bottom:8px"></div>
                   <div style="font-weight:600;font-size:0.85rem">No Active Counselor Alerts</div>
                   <div style="font-size:0.75rem;margin-top:4px">All student burnout scores are currently within healthy limits.</div>
                 </div>
@@ -1266,7 +1266,7 @@ async function renderCounselorPage() {
                     <div class="alert-avatar avatar-${a.risk_level ? a.risk_level.toLowerCase() : (a.riskLevel || 'critical').toLowerCase()}">${a.risk_level ? a.risk_level[0] : (a.riskLevel ? a.riskLevel[0] : 'C')}</div>
                     <div class="alert-info">
                       <div class="alert-anon-id">${anonId}</div>
-                      <div class="alert-meta">MCA Department Â· Triggered ${a.triggered_at ? a.triggered_at.split(' ')[0] : (a.triggeredAt || 'just now')}</div>
+                      <div class="alert-meta">MCA Department  |  Triggered ${a.triggered_at ? a.triggered_at.split(' ')[0] : (a.triggeredAt || 'just now')}</div>
                       <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">
                         ${triggerReasons.map(t => `<span style="font-size:0.65rem;padding:2px 7px;border-radius:var(--radius-full);background:var(--bg-glass);border:1px solid var(--border);color:var(--text-muted)">${t}</span>`).join('')}
                       </div>
@@ -1281,7 +1281,7 @@ async function renderCounselorPage() {
               }).join('')}
             </div>
             
-            <div style="margin-top:20px;font-size:0.85rem;font-weight:600;margin-bottom:12px;color:var(--text-muted)">âœ“ Resolved Alerts</div>
+            <div style="margin-top:20px;font-size:0.85rem;font-weight:600;margin-bottom:12px;color:var(--text-muted)"> Resolved Alerts</div>
             <div class="alert-board">
               ${resolvedAlerts.length === 0 ? `
                 <div style="text-align:center;padding:20px;font-size:0.75rem;color:var(--text-muted)">No resolved records today.</div>
@@ -1289,10 +1289,10 @@ async function renderCounselorPage() {
                 const anonId = a.anon_token ? `ANON-${a.anon_token.slice(0,6).toUpperCase()}` : (a.anonymousId || 'ANON-xxxx');
                 return `
                   <div class="alert-row" style="opacity:0.5">
-                    <div class="alert-avatar" style="background:var(--bg-glass)">âœ“</div>
+                    <div class="alert-avatar" style="background:var(--bg-glass)"></div>
                     <div class="alert-info">
                       <div class="alert-anon-id">${anonId}</div>
-                      <div class="alert-meta">MCA Department Â· Resolved on ${a.triggered_at ? a.triggered_at.split(' ')[0] : 'Just now'}</div>
+                      <div class="alert-meta">MCA Department  |  Resolved on ${a.triggered_at ? a.triggered_at.split(' ')[0] : 'Just now'}</div>
                     </div>
                     <div class="alert-score" style="color:var(--text-muted)">${a.score}</div>
                     <span class="risk-pill" style="background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.3)">RESOLVED</span>
@@ -1304,7 +1304,7 @@ async function renderCounselorPage() {
 
           <!-- Batch Distribution Chart -->
           <div>
-            <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px">ðŸ“Š Batch Risk Distribution</div>
+            <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px"> Batch Risk Distribution</div>
             <div class="chart-card">
               <div class="chart-canvas-wrap" style="height:220px">
                 <canvas id="riskDistChart"></canvas>
@@ -1338,7 +1338,7 @@ async function renderGroupsPage() {
   document.getElementById('page-groups').innerHTML = `
     <div class="inner-page-wrap">
       <div style="text-align:center;padding:120px 20px">
-        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block">âš™ï¸</div>
+        <div style="font-size:3rem;margin-bottom:16px;animation:spin 1s linear infinite;display:inline-block"></div>
         <div style="font-size:1.1rem;font-weight:600;color:white;margin-bottom:8px">Loading study clusters...</div>
       </div>
     </div>
@@ -1362,9 +1362,9 @@ async function renderGroupsPage() {
   const todayStr = new Date().toLocaleDateString('sv').substring(0, 10);
   const hasCheckedInToday = latestCheckin && latestCheckin.checkin_date === todayStr;
 
-  // â”€â”€ ðŸš¨ FORCE DAILY CHECK-IN BEFORE ACCESSING GROUPS â”€â”€â”€â”€â”€â”€â”€
+  //   FORCE DAILY CHECK-IN BEFORE ACCESSING GROUPS 
   if (!isOffline && !hasCheckedInToday) {
-    showToast('ðŸ—“ï¸', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
+    showToast('📅', `Hi ${student.name}, please complete today's Daily Check-in first!`, 'info');
     showPage('checkin');
     return;
   }
@@ -1373,10 +1373,10 @@ async function renderGroupsPage() {
   const myClusterId = score >= 75 ? 'A' : score >= 55 ? 'C' : score >= 30 ? 'B' : 'D';
 
   const clusterNames = {
-    'A': 'Cluster A â€” High-Stress GATE Prep Group',
-    'B': 'Cluster B â€” Moderate Stress Achievers',
-    'C': 'Cluster C â€” Placement Season Warriors',
-    'D': 'Cluster D â€” Low Stress High Performers'
+    'A': 'Cluster A  -  High-Stress GATE Prep Group',
+    'B': 'Cluster B  -  Moderate Stress Achievers',
+    'C': 'Cluster C  -  Placement Season Warriors',
+    'D': 'Cluster D  -  Low Stress High Performers'
   };
 
   const matchedName = clusterNames[myClusterId];
@@ -1417,25 +1417,25 @@ async function renderGroupsPage() {
     <div class="inner-page-wrap">
       <div class="page-header">
         <div class="page-header-inner">
-          <button class="back-btn" onclick="showPage('dashboard')">â† Dashboard</button>
+          <button class="back-btn" onclick="showPage('dashboard')"> Dashboard</button>
           <div class="page-title-area">
             <div class="page-title">Peer Study Groups</div>
-            <div class="page-subtitle">K-Means clustering Â· Stress-pattern matched groups Â· ${AcademiData.batchAnalytics.totalStudents} students</div>
+            <div class="page-subtitle">K-Means clustering  |  Stress-pattern matched groups  |  ${AcademiData.batchAnalytics.totalStudents} students</div>
           </div>
         </div>
       </div>
       <div class="page-content">
         <div class="card" style="margin-bottom:20px;background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.05))">
           <div style="display:flex;align-items:center;gap:16px">
-            <span style="font-size:2rem">ðŸŽ¯</span>
+            <span style="font-size:2rem"></span>
             <div>
               <div style="font-weight:600;margin-bottom:4px">You are matched to ${matchedName}</div>
               <div style="font-size:0.8rem;color:var(--text-secondary)">K-Means algorithm identified students with similar stress patterns, study habits, and academic pressure as you. Meeting this Saturday!</div>
             </div>
-            <button class="btn-primary" onclick="showToast('ðŸŽ‰','Joined ${matchedName} group! Check your college email for details.','success')">Join Your Group</button>
+            <button class="btn-primary" onclick="showToast('','Joined ${matchedName} group! Check your college email for details.','success')">Join Your Group</button>
           </div>
         </div>
-        <div style="font-size:0.85rem;font-weight:600;margin-bottom:16px">All Peer Study Clusters (${groups.length} groups Â· K-Means k=${groups.length})</div>
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:16px">All Peer Study Clusters (${groups.length} groups  |  K-Means k=${groups.length})</div>
         <div class="groups-grid">
           ${groups.map(g => `
             <div class="group-card">
@@ -1447,7 +1447,7 @@ async function renderGroupsPage() {
                 </div>
               </div>
               <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:12px;padding:8px;background:var(--bg-glass);border-radius:var(--radius-sm)">
-                ðŸ’¡ ${g.matchReason}
+                 ${g.matchReason}
               </div>
               <div class="group-members">
                 ${g.members.map(m => `
@@ -1459,10 +1459,10 @@ async function renderGroupsPage() {
                 `).join('')}
               </div>
               <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:12px">
-                ðŸ• ${g.meetingTime} Â· Focus: ${g.focusArea}
+                 ${g.meetingTime}  |  Focus: ${g.focusArea}
               </div>
-              <button class="join-btn" onclick="showToast('ðŸ‘¥','Joining ${g.clusterName}!','success')">
-                ${g.clusterId === myClusterId ? 'âœ“ Already Joined' : 'Request to Join'}
+              <button class="join-btn" onclick="showToast('','Joining ${g.clusterName}!','success')">
+                ${g.clusterId === myClusterId ? ' Already Joined' : 'Request to Join'}
               </button>
             </div>
           `).join('')}
@@ -1472,9 +1472,9 @@ async function renderGroupsPage() {
   `;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// EXAM MODAL â€” Add / Delete Exams
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
+// EXAM MODAL  -  Add / Delete Exams
+// 
 
 function openAddExamModal() {
   // Remove existing modal if any
@@ -1491,10 +1491,10 @@ function openAddExamModal() {
     <div style="background:#18181b;border:1px solid #3f3f46;border-radius:16px;padding:28px;width:100%;max-width:420px;box-shadow:0 25px 60px rgba(0,0,0,0.5)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
         <div>
-          <div style="font-size:1.1rem;font-weight:700;color:white">ðŸ“… Add Your Exam</div>
+          <div style="font-size:1.1rem;font-weight:700;color:white"> Add Your Exam</div>
           <div style="font-size:0.75rem;color:#71717a;margin-top:2px">Dates saved to your profile</div>
         </div>
-        <button onclick="closeModal('examModal')" style="background:rgba(255,255,255,0.05);border:1px solid #3f3f46;color:#a1a1aa;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">âœ•</button>
+        <button onclick="closeModal('examModal')" style="background:rgba(255,255,255,0.05);border:1px solid #3f3f46;color:#a1a1aa;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;"></button>
       </div>
 
       <div style="display:flex;flex-direction:column;gap:14px">
@@ -1533,7 +1533,7 @@ function openAddExamModal() {
         </button>
         <button onclick="saveExam()"
           style="flex:2;padding:10px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;border:none;cursor:pointer;font-size:0.875rem;font-weight:600;">
-          ðŸ’¾ Save Exam
+           Save Exam
         </button>
       </div>
     </div>
@@ -1549,8 +1549,8 @@ function saveExam() {
   const date    = document.getElementById('exam-date')?.value;
   const weight  = parseFloat(document.getElementById('exam-weight')?.value || '1');
 
-  if (!subject) return showToast('âŒ', 'Please enter the subject name', 'error');
-  if (!date)    return showToast('âŒ', 'Please select an exam date', 'error');
+  if (!subject) return showToast('', 'Please enter the subject name', 'error');
+  if (!date)    return showToast('', 'Please select an exam date', 'error');
 
   const student = AcademiData.currentStudent;
   const email   = student.email || 'guest';
@@ -1563,7 +1563,7 @@ function saveExam() {
   localStorage.setItem('academicare_exams_' + email, JSON.stringify(filtered));
 
   closeModal('examModal');
-  showToast('âœ…', `Exam added: ${subject} on ${new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}`, 'success');
+  showToast('', `Exam added: ${subject} on ${new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}`, 'success');
 
   // Refresh dashboard
   setTimeout(() => renderDashboardPage(), 200);
@@ -1575,7 +1575,7 @@ function deleteExam(subject) {
   const exams   = JSON.parse(localStorage.getItem('academicare_exams_' + email) || '[]');
   const updated = exams.filter(e => e.subject !== subject);
   localStorage.setItem('academicare_exams_' + email, JSON.stringify(updated));
-  showToast('ðŸ—‘ï¸', `Removed: ${subject}`, 'info');
+  showToast('', `Removed: ${subject}`, 'info');
   setTimeout(() => renderDashboardPage(), 200);
 }
 

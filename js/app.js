@@ -1,9 +1,9 @@
-﻿// =============================================
-// AcademiCare â€” Main App Controller
+// =============================================
+// AcademiCare  -  Main App Controller
 // Navigation, page management, UI interactions
 // =============================================
 
-// â”€â”€â”€ PAGE REGISTRY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  PAGE REGISTRY 
 const PAGES = {
   landing:   { id: 'page-landing',   render: null,                navbarStyle: 'transparent' },
   login:     { id: 'page-login',     render: renderLoginPage,     navbarStyle: 'solid' },
@@ -22,7 +22,7 @@ function getCleanHash() {
   return PAGES[raw] ? raw : null;
 }
 
-// â”€â”€â”€ AUTH MODAL OVERLAY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  AUTH MODAL OVERLAY 
 function openAuthModal(type = 'login') {
   const modal = document.getElementById('auth-modal');
   if (!modal) return showPage(type);
@@ -33,7 +33,7 @@ function openAuthModal(type = 'login') {
   if (type === 'register') {
     modal.innerHTML = `
       <div class="auth-card" style="width:100%;max-width:480px;background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.8);position:relative;max-height:90vh;overflow-y:auto">
-        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem">Ã—</button>
+        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem"></button>
         <h2 style="font-size:1.5rem;font-weight:800;color:white;margin-bottom:4px;text-align:center">Create Student Account</h2>
         <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:20px;text-align:center">CHRIST (Deemed to be University) Student Portal</p>
         
@@ -48,10 +48,10 @@ function openAuthModal(type = 'login') {
         <div style="margin-bottom:12px">
           <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Department *</label>
           <select id="reg-dept" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box">
-            <option value="MCA">MCA â€” Dept. of Computer Science</option>
+            <option value="MCA">MCA  -  Dept. of Computer Science</option>
             <option value="MSc DS">MSc Data Science</option>
             <option value="MSc CS">MSc Computer Science</option>
-            <option value="MBA">MBA â€” School of Business</option>
+            <option value="MBA">MBA  -  School of Business</option>
             <option value="BCom FA">BCom Finance and Accountancy</option>
             <option value="BA LLB">School of Law</option>
             <option value="BTech CS">School of Engineering</option>
@@ -75,7 +75,7 @@ function openAuthModal(type = 'login') {
           <input type="password" id="reg-confirm-pass" placeholder="Re-enter password" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
         </div>
         <button id="btn-register" onclick="handleRegister()" style="width:100%;padding:12px;border-radius:9999px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-weight:700;font-size:0.95rem;border:none;cursor:pointer">
-          Create Account & Continue â†’
+          Create Account & Continue 
         </button>
         <div style="text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-muted)">
           Already have an account? <a onclick="openAuthModal('login')" style="color:var(--purple-light);font-weight:600;cursor:pointer">Sign in here</a>
@@ -85,14 +85,14 @@ function openAuthModal(type = 'login') {
   } else {
     modal.innerHTML = `
       <div class="auth-card" style="width:100%;max-width:420px;background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.8);position:relative">
-        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem">Ã—</button>
+        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem"></button>
         <h2 style="font-size:1.5rem;font-weight:800;color:white;margin-bottom:4px;text-align:center">Welcome Back</h2>
         <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:20px;text-align:center">Sign in to your student wellness portal</p>
         
         <div class="role-selector" style="display:flex;gap:8px;margin-bottom:16px">
-          <button class="role-btn selected" id="role-student" onclick="selectRole('student')">ðŸŽ“ Student</button>
-          <button class="role-btn" id="role-counselor" onclick="selectRole('counselor')">ðŸ‘¨â€âš•ï¸ Counselor</button>
-          <button class="role-btn" id="role-admin" onclick="selectRole('admin')">ðŸ”§ Admin</button>
+          <button class="role-btn selected" id="role-student" onclick="selectRole('student')"> Student</button>
+          <button class="role-btn" id="role-counselor" onclick="selectRole('counselor')"> Counselor</button>
+          <button class="role-btn" id="role-admin" onclick="selectRole('admin')"> Admin</button>
         </div>
         <div style="margin-bottom:14px">
           <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">College Email *</label>
@@ -100,10 +100,10 @@ function openAuthModal(type = 'login') {
         </div>
         <div style="margin-bottom:20px">
           <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Password *</label>
-          <input type="password" id="login-pass" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
+          <input type="password" id="login-pass" placeholder="" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
         </div>
         <button id="btn-login" onclick="handleLogin()" style="width:100%;padding:12px;border-radius:9999px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-weight:700;font-size:0.95rem;border:none;cursor:pointer">
-          Sign In to Dashboard â†’
+          Sign In to Dashboard 
         </button>
         <div style="text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-muted)">
           Don't have an account? <a onclick="openAuthModal('register')" style="color:var(--purple-light);font-weight:600;cursor:pointer">Register here</a>
@@ -136,7 +136,7 @@ function closeAuthModal() {
   document.body.style.overflow = '';
 }
 
-// â”€â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  NAVIGATION 
 function showPage(pageName, sectionHash = null) {
   if (!PAGES[pageName]) pageName = 'landing';
 
@@ -210,7 +210,7 @@ function updateNavbarAuth() {
               <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:white">${user.avatar || 'U'}</div>
               <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:600;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${user.name ? user.name.split(' ')[0] : 'User'}</span>
             </div>
-            <button onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">ðŸšª Logout</button>
+            <button onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;"> Logout</button>
           </div>
         `;
       } catch(e) {
@@ -234,7 +234,7 @@ function updateNavbarAuth() {
           <a onclick="showPage('dashboard')" class="nav-link" style="cursor:pointer">Dashboard</a>
           <a onclick="showPage('checkin')" class="nav-link" style="cursor:pointer">Daily Check-In</a>
           <a onclick="showPage('analytics')" class="nav-link" style="cursor:pointer">Analytics</a>
-          <a onclick="logout()" class="nav-link" style="cursor:pointer;color:#f87171">ðŸšª Logout (${user.name ? user.name.split(' ')[0] : 'User'})</a>
+          <a onclick="logout()" class="nav-link" style="cursor:pointer;color:#f87171"> Logout (${user.name ? user.name.split(' ')[0] : 'User'})</a>
         `;
       } catch(e) {}
     } else {
@@ -242,8 +242,8 @@ function updateNavbarAuth() {
         <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
         <a onclick="navigateToSection('#features')" class="nav-link" style="cursor:pointer">Features</a>
         <a onclick="navigateToSection('#ml-models')" class="nav-link" style="cursor:pointer">ML Models</a>
-        <a onclick="openAuthModal('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700">ðŸ”‘ Sign In</a>
-        <a onclick="openAuthModal('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700">âœ¨ Create Account</a>
+        <a onclick="openAuthModal('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700"> Sign In</a>
+        <a onclick="openAuthModal('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700"> Create Account</a>
       `;
     }
   }
@@ -262,7 +262,7 @@ function updateNavLinks(page) {
   // Update nav active state if needed
 }
 
-// â”€â”€â”€ SCROLL HANDLER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  SCROLL HANDLER 
 window.addEventListener('scroll', () => {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
@@ -273,13 +273,13 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// â”€â”€â”€ HAMBURGER MENU â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  HAMBURGER MENU 
 function toggleMenu() {
   const links = document.getElementById('navLinks');
   if (links) links.classList.toggle('open');
 }
 
-// â”€â”€â”€ AUTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  AUTH 
 let selectedRole = 'student';
 function selectRole(role) {
   selectedRole = role;
@@ -293,11 +293,11 @@ async function handleLogin() {
 
   const email = document.getElementById('login-email')?.value?.trim();
   const pass  = document.getElementById('login-pass')?.value;
-  if (!email) return showToast('âŒ', 'Please enter your college email', 'error');
-  if (!pass)  return showToast('âŒ', 'Please enter your password', 'error');
+  if (!email) return showToast('', 'Please enter your college email', 'error');
+  if (!pass)  return showToast('', 'Please enter your password', 'error');
 
   if (typeof showLoadingBtn === 'function') showLoadingBtn('btn-login', 'Signing in...');
-  else showToast('ðŸ”', 'Authenticating credentials...', 'info');
+  else showToast('', 'Authenticating credentials...', 'info');
 
   try {
     const res = await fetch('/api/login', {
@@ -329,20 +329,20 @@ async function handleLogin() {
       if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
       localStorage.setItem('academicare_user', JSON.stringify(user));
       closeAuthModal();
-      showToast('âœ…', `Signed in successfully as ${user.name}!`, 'success');
+      showToast('', `Signed in successfully as ${user.name}!`, 'success');
       setTimeout(() => {
         if (user.role === 'counselor' || user.role === 'admin') showPage('counselor');
         else showPage('dashboard');
       }, 600);
     } else {
       const msg = data.detail || 'Incorrect email or password. Please try again.';
-      showToast('âŒ', msg, 'error');
-      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard â†’');
+      showToast('', msg, 'error');
+      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard ');
     }
   } catch (err) {
     console.warn('Server error or network offline:', err.message);
-    showToast('âŒ', 'Unable to reach backend server. Please check your connection.', 'error');
-    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard â†’');
+    showToast('', 'Unable to reach backend server. Please check your connection.', 'error');
+    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard ');
   }
 }
 
@@ -359,16 +359,16 @@ async function handleRegister() {
   const ageEl   = document.getElementById('reg-age');
   const age     = ageEl && ageEl.value ? parseInt(ageEl.value) : null;
 
-  if (!name)  return showToast('âŒ', 'Please enter your full name', 'error');
-  if (!email) return showToast('âŒ', 'Please enter your college email', 'error');
-  if (!pass)  return showToast('âŒ', 'Please choose a password', 'error');
-  if (confirm && pass !== confirm) return showToast('âŒ', 'Passwords do not match', 'error');
+  if (!name)  return showToast('', 'Please enter your full name', 'error');
+  if (!email) return showToast('', 'Please enter your college email', 'error');
+  if (!pass)  return showToast('', 'Please choose a password', 'error');
+  if (confirm && pass !== confirm) return showToast('', 'Passwords do not match', 'error');
 
   const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
   const rollNo   = (dept.slice(0,3) || 'MCA').toUpperCase() + '24B' + Math.floor(Math.random()*90+10);
 
   if (typeof showLoadingBtn === 'function') showLoadingBtn('btn-register', 'Creating Account...');
-  else showToast('ðŸ’¾', 'Creating student account in database...', 'info');
+  else showToast('', 'Creating student account in database...', 'info');
 
   try {
     const res = await fetch('/api/students', {
@@ -387,8 +387,8 @@ async function handleRegister() {
       if (Array.isArray(data.detail)) {
         msg = data.detail.map(e => (e.msg || '').replace('Value error, ', '')).join(' | ');
       }
-      showToast('âŒ', msg, 'error');
-      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account â†’');
+      showToast('', msg, 'error');
+      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account ');
       return;
     }
 
@@ -401,17 +401,17 @@ async function handleRegister() {
     if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
     localStorage.setItem('academicare_user', JSON.stringify(user));
     closeAuthModal();
-    showToast('ðŸŽ‰', `Account created successfully for ${name}!`, 'success');
+    showToast('', `Account created successfully for ${name}!`, 'success');
     setTimeout(() => showPage('checkin'), 600);
 
   } catch (err) {
     console.warn('Registration error:', err.message);
-    showToast('âŒ', 'Unable to reach backend server. Please check your connection.', 'error');
-    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account â†’');
+    showToast('', 'Unable to reach backend server. Please check your connection.', 'error');
+    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account ');
   }
 }
 
-// â”€â”€â”€ AUTH-AWARE FETCH HELPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  AUTH-AWARE FETCH HELPER 
 /**
  * Wrapper around fetch() that auto-adds JWT Authorization header.
  * On 401 (session expired): clears session and redirects to login.
@@ -427,7 +427,7 @@ async function authFetch(url, options = {}) {
   if (res.status === 401) {
     if (typeof clearToken === 'function') clearToken();
     localStorage.removeItem('academicare_user');
-    showToast('ðŸ”’', 'Your session has expired. Please sign in again.', 'error');
+    showToast('', 'Your session has expired. Please sign in again.', 'error');
     setTimeout(() => { updateNavbarAuth(); openAuthModal('login'); }, 1500);
     throw new Error('Session expired');
   }
@@ -438,11 +438,11 @@ function logout() {
   if (typeof clearToken === 'function') clearToken();
   localStorage.removeItem('academicare_user');
   updateNavbarAuth();
-  showToast('ðŸ‘‹', 'Logged out successfully! Starting fresh session.', 'info');
+  showToast('', 'Logged out successfully! Starting fresh session.', 'info');
   setTimeout(() => showPage('landing'), 300);
 }
 
-// â”€â”€â”€ TOAST NOTIFICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  TOAST NOTIFICATIONS 
 function showToast(icon, message, type = 'info') {
   let container = document.getElementById('toastContainer');
   if (!container) {
@@ -466,7 +466,7 @@ function showToast(icon, message, type = 'info') {
   toast.innerHTML = `
     <span class="toast-icon">${icon}</span>
     <span class="toast-msg">${message}</span>
-    <span class="toast-close" onclick="this.closest('.toast').remove()">Ã—</span>
+    <span class="toast-close" onclick="this.closest('.toast').remove()"></span>
   `;
 
   container.appendChild(toast);
@@ -482,7 +482,7 @@ function showToast(icon, message, type = 'info') {
   }, 4000);
 }
 
-// â”€â”€â”€ SMOOTH SCROLL FOR NAV LINKS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  SMOOTH SCROLL FOR NAV LINKS 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
@@ -494,7 +494,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// â”€â”€â”€ INTERSECTION OBSERVER (Animate on scroll) â”€
+//  INTERSECTION OBSERVER (Animate on scroll) 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -513,7 +513,7 @@ function observeElements() {
   });
 }
 
-// â”€â”€â”€ KEYBOARD SHORTCUTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  KEYBOARD SHORTCUTS 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeAuthModal();
@@ -522,7 +522,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// â”€â”€â”€ HASH NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  HASH NAVIGATION 
 window.addEventListener('hashchange', () => {
   const target = getCleanHash();
   if (target && currentPage !== target) {
@@ -530,7 +530,7 @@ window.addEventListener('hashchange', () => {
   }
 });
 
-// â”€â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  INIT 
 document.addEventListener('DOMContentLoaded', () => {
   // Check session validity on load
   const token     = typeof getStoredToken === 'function' ? getStoredToken() : null;
@@ -554,12 +554,12 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const user = JSON.parse(freshUser);
       setTimeout(() => {
-        showToast('ðŸ‘¤', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Click Dashboard to continue.`, 'info');
+        showToast('', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Click Dashboard to continue.`, 'info');
       }, 1000);
     } catch (e) {}
   } else {
     setTimeout(() => {
-      showToast('ðŸŽ“', 'AcademiCare â€” Predictive Student Wellness Platform', 'success');
+      showToast('', 'AcademiCare  -  Predictive Student Wellness Platform', 'success');
     }, 1200);
   }
 

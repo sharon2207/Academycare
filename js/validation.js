@@ -1,17 +1,17 @@
 // =============================================
-// AcademiCare — Frontend Validation Engine
+// AcademiCare  Frontend Validation Engine
 // Real-time validation, sanitization, UX helpers
 // =============================================
 
 'use strict';
 
-// ── Constants ─────────────────────────────────
+//  Constants 
 const VALID_DEPARTMENTS = ['MCA','MSc DS','MSc CS','MBA','BCom FA','BA LLB','BTech CS'];
 const VALID_YEARS       = [1, 2, 3];
 const VALID_SEMESTERS   = [1, 2, 3, 4, 5, 6];
 const VALID_ROLES       = ['student', 'counselor', 'admin', 'faculty'];
 
-// ── Sanitize ───────────────────────────────────
+//  Sanitize 
 /**
  * Strip potential XSS vectors from user input strings.
  * Removes script tags, encodes angle brackets.
@@ -28,7 +28,7 @@ function sanitizeText(value) {
 }
 
 /**
- * Sanitize a plain notes/textarea field — allow all chars but strip script tags.
+ * Sanitize a plain notes/textarea field  allow all chars but strip script tags.
  */
 function sanitizeNotes(value) {
   if (typeof value !== 'string') return '';
@@ -38,7 +38,7 @@ function sanitizeNotes(value) {
     .substring(0, 500);
 }
 
-// ── Name Validation ────────────────────────────
+//  Name Validation 
 function validateName(value) {
   if (!value || !value.trim()) return 'Full name is required.';
   const v = value.trim();
@@ -48,7 +48,7 @@ function validateName(value) {
   return null;
 }
 
-// ── Email Validation ───────────────────────────
+//  Email Validation 
 function validateEmail(value) {
   if (!value || !value.trim()) return 'Email address is required.';
   const v = value.trim().toLowerCase();
@@ -58,7 +58,7 @@ function validateEmail(value) {
   return null;
 }
 
-// ── Password Validation ────────────────────────
+//  Password Validation 
 function validatePassword(value) {
   if (!value) return 'Password is required.';
   if (value.length < 8) return 'Password must be at least 8 characters.';
@@ -94,7 +94,7 @@ function getPasswordStrength(value) {
   return 4;                      // strong
 }
 
-// ── Numeric Range Validators ───────────────────
+//  Numeric Range Validators 
 function validateAge(value) {
   const n = parseInt(value, 10);
   if (isNaN(n)) return 'Age must be a number.';
@@ -142,7 +142,7 @@ function validateMoodScore(value) {
   return validateSlider(value, 'Mood score', 1, 10);
 }
 
-// ── Text Validators ────────────────────────────
+//  Text Validators 
 function validateNotes(value) {
   if (!value) return null; // optional
   if (value.length > 500) return `Notes must not exceed 500 characters (currently ${value.length}).`;
@@ -155,7 +155,7 @@ function validateMessage(value) {
   return null;
 }
 
-// ── Dropdown/Enum Validators ───────────────────
+//  Dropdown/Enum Validators 
 function validateDepartment(value) {
   if (!value) return 'Please select your department.';
   if (!VALID_DEPARTMENTS.includes(value)) return 'Please select a valid department from the list.';
@@ -168,7 +168,7 @@ function validateYear(value) {
   return null;
 }
 
-// ── UI Helpers — Inline Field Errors ──────────
+//  UI Helpers  Inline Field Errors 
 /**
  * Show a red error message below a form field.
  * Creates a <span id="${fieldId}-error"> element if it doesn't exist.
@@ -209,7 +209,7 @@ function showFieldSuccess(fieldId) {
   if (errEl) errEl.textContent = '';
 }
 
-// ── Password Strength Meter UI ─────────────────
+//  Password Strength Meter UI 
 function updatePasswordStrengthMeter(passwordValue, meterId) {
   const meter = document.getElementById(meterId);
   if (!meter) return;
@@ -227,7 +227,7 @@ function updatePasswordStrengthMeter(passwordValue, meterId) {
   `;
 }
 
-// ── Notes Character Counter ────────────────────
+//  Notes Character Counter 
 function updateNotesCounter(value, counterId, max = 500) {
   const counter = document.getElementById(counterId);
   if (!counter) return;
@@ -237,7 +237,7 @@ function updateNotesCounter(value, counterId, max = 500) {
   counter.style.color = color;
 }
 
-// ── Loading Button Helpers ─────────────────────
+//  Loading Button Helpers 
 function showLoadingBtn(btnId, loadingText = 'Processing...') {
   const btn = document.getElementById(btnId);
   if (!btn) return;
@@ -259,7 +259,7 @@ function resetLoadingBtn(btnId, originalText) {
   btn.textContent = originalText || btn.dataset.originalText || 'Submit';
 }
 
-// ── Attach Real-time Validators ────────────────
+//  Attach Real-time Validators 
 /**
  * Attach blur+input listeners that validate a field in real-time.
  * validateFn: function(value) -> error string | null
@@ -284,7 +284,7 @@ function attachValidator(fieldId, validateFn, successCheck = true) {
   });
 }
 
-// ── Full Form Validators ───────────────────────
+//  Full Form Validators 
 /**
  * Validate the registration form.
  * Returns true if all fields are valid, false otherwise.
@@ -380,7 +380,7 @@ function validateCheckinForm() {
   return valid;
 }
 
-// ── JWT Utilities ──────────────────────────────
+//  JWT Utilities 
 function getStoredToken() {
   return localStorage.getItem('academicare_token');
 }
@@ -422,7 +422,7 @@ function checkSessionValid() {
   return true;
 }
 
-// ── Inject spin animation ──────────────────────
+//  Inject spin animation 
 (function injectStyles() {
   if (document.getElementById('validation-styles')) return;
   const style = document.createElement('style');

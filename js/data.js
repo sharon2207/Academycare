@@ -1,11 +1,11 @@
 // =============================================
-// AcademiCare — Mock Data Store
+// AcademiCare  Mock Data Store
 // Simulates AWS RDS + ML Engine responses
 // =============================================
 
 const AcademiData = {
 
-  // ─── CURRENT STUDENT (reads from localStorage) ──
+  //  CURRENT STUDENT (reads from localStorage) 
   get currentStudent() {
     const u = JSON.parse(localStorage.getItem('academicare_user') || 'null');
     return u || {
@@ -15,7 +15,7 @@ const AcademiData = {
     };
   },
 
-  // ─── BURNOUT SCORE (Random Forest Output) ────
+  //  BURNOUT SCORE (Random Forest Output) 
   burnoutScore: {
     current: 67,
     riskLevel: 'High',
@@ -33,17 +33,17 @@ const AcademiData = {
     }
   },
 
-  // ─── WELLNESS RECOMMENDATIONS ─────────────────
+  //  WELLNESS RECOMMENDATIONS 
   recommendations: [
     {
       icon: '😴',
       title: 'Improve Sleep Quality',
-      text: 'Your 5.2 hours of sleep is critically below the 7–8 hour threshold. Sleep deprivation is your #1 burnout driver today.',
+      text: 'Your 5.2 hours of sleep is critically below the 78 hour threshold. Sleep deprivation is your #1 burnout driver today.',
       category: 'sleep',
       priority: 'critical'
     },
     {
-      icon: '⏰',
+      icon: '',
       title: 'Implement Pomodoro Technique',
       text: 'You\'re studying 7.8 hours straight. Break sessions into 25-min focus + 5-min rest to retain 40% more information.',
       category: 'study',
@@ -72,7 +72,7 @@ const AcademiData = {
     }
   ],
 
-  // ─── 30-DAY STRESS TREND (LSTM Input/Output) ──
+  //  30-DAY STRESS TREND (LSTM Input/Output) 
   stressTrend30Days: {
     labels: Array.from({length: 30}, (_, i) => {
       const d = new Date('2026-05-28');
@@ -86,7 +86,7 @@ const AcademiData = {
     lstmPrediction: [68, 71, 74, 77, 79, 82, 84]
   },
 
-  // ─── EXAM TIMETABLE (loaded dynamically from localStorage + API per student) ──
+  //  EXAM TIMETABLE (loaded dynamically from localStorage + API per student) 
   get examTimetable() {
     const email = this.currentStudent.email || 'guest';
     const stored = JSON.parse(localStorage.getItem('academicare_exams_' + email) || '[]');
@@ -103,13 +103,13 @@ const AcademiData = {
       .sort((a, b) => a.daysLeft - b.daysLeft);
   },
 
-  // ─── ATTENDANCE & MARKS (Populated dynamically per student input) ───
+  //  ATTENDANCE & MARKS (Populated dynamically per student input) 
   academicData: [],
 
-  // ─── SUBJECT ASSIGNMENT DEADLINE CORRELATION ───
+  //  SUBJECT ASSIGNMENT DEADLINE CORRELATION 
   facultyCorrelation: [],
 
-  // ─── K-MEANS PEER GROUPS ──────────────────────
+  //  K-MEANS PEER GROUPS 
   peerGroups: [
     {
       clusterId: 'A', clusterName: 'High-Stress GATE Prep Group',
@@ -121,7 +121,7 @@ const AcademiData = {
         { name: 'Rahul Verma', score: 65, initials: 'RV' },
         { name: 'Sneha Patel', score: 69, initials: 'SP' }
       ],
-      meetingTime: 'Saturdays 4–6 PM',
+      meetingTime: 'Saturdays 46 PM',
       focusArea: 'GATE + Cloud Computing'
     },
     {
@@ -134,7 +134,7 @@ const AcademiData = {
         { name: 'Meera Singh', score: 39, initials: 'MS' },
         { name: 'Rohit Sharma', score: 48, initials: 'RS' }
       ],
-      meetingTime: 'Wednesdays 5–7 PM',
+      meetingTime: 'Wednesdays 57 PM',
       focusArea: 'ML + Data Science'
     },
     {
@@ -146,7 +146,7 @@ const AcademiData = {
         { name: 'Vikram Nair', score: 68, initials: 'VN' },
         { name: 'Pooja Iyer', score: 75, initials: 'PI' }
       ],
-      meetingTime: 'Sundays 3–5 PM',
+      meetingTime: 'Sundays 35 PM',
       focusArea: 'Interview Prep + DSA'
     },
     {
@@ -158,12 +158,12 @@ const AcademiData = {
         { name: 'Divya Pillai', score: 18, initials: 'DP' },
         { name: 'Saurabh Roy', score: 25, initials: 'SR' }
       ],
-      meetingTime: 'Fridays 6–8 PM',
+      meetingTime: 'Fridays 68 PM',
       focusArea: 'Research + Projects'
     }
   ],
 
-  // ─── COUNSELOR ALERTS ─────────────────────────
+  //  COUNSELOR ALERTS 
   counselorAlerts: [
     { anonymousId: 'ANON-4421', riskLevel: 'Critical', score: 89, triggeredAt: '2 hours ago', department: 'MCA', triggers: ['Sleep < 4h for 5 days', 'Exam in 2 days', 'Mood = 2/10'], resolved: false },
     { anonymousId: 'ANON-8834', riskLevel: 'Critical', score: 83, triggeredAt: '5 hours ago', department: 'MCA', triggers: ['3-day isolation pattern', 'Attendance 48%', 'GATE pressure flag'], resolved: false },
@@ -172,7 +172,7 @@ const AcademiData = {
     { anonymousId: 'ANON-3312', riskLevel: 'High', score: 71, triggeredAt: '3 days ago', department: 'MCA', triggers: ['Multiple deadline overlap', 'Sleep disruption pattern'], resolved: true }
   ],
 
-  // ─── RESILIENCE SCORE ─────────────────────────
+  //  RESILIENCE SCORE 
   resilienceScore: {
     current: 72,
     episodes: [
@@ -184,7 +184,7 @@ const AcademiData = {
     avgRecoveryDays: 10.3
   },
 
-  // ─── BATCH ANALYTICS (Admin View) ────────────
+  //  BATCH ANALYTICS (Admin View) 
   batchAnalytics: {
     totalStudents: 64,
     riskDistribution: { low: 18, moderate: 24, high: 16, critical: 6 },
@@ -197,7 +197,7 @@ const AcademiData = {
 
 };
 
-// ─── SIMULATED ML SCORING FUNCTION ─────────────
+//  SIMULATED ML SCORING FUNCTION 
 function computeBurnoutScore(checkinData) {
   // Simulates Random Forest inference
   const weights = { mood: -3.2, sleep: -4.1, study: 1.8, placement: 8, family: 5, gate: 6, isolation: 7 };

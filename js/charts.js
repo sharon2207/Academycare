@@ -1,5 +1,5 @@
 // =============================================
-// AcademiCare — Chart Renderers (Chart.js)
+// AcademiCare  Chart Renderers (Chart.js)
 // All analytics visualizations
 // =============================================
 
@@ -103,7 +103,7 @@ function drawLSTMChart(dbHistory = null) {
 }
 
 function drawAnalyticsCharts(dbHistory = null, academicData = null) {
-  // ─── 30-Day Trend Chart ─────────────────────
+  //  30-Day Trend Chart 
   destroyChart('trendChart30');
   const ctx1 = document.getElementById('trendChart30');
   if (ctx1 && dbHistory && dbHistory.length > 0) {
@@ -124,13 +124,13 @@ function drawAnalyticsCharts(dbHistory = null, academicData = null) {
             borderWidth: 2.5, fill: true, tension: 0.4, pointRadius: 3
           },
           {
-            label: 'Sleep Hours (×8)',
+            label: 'Sleep Hours (8)',
             data: sleepHours.map(v => v * 8),
             borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.05)',
             borderWidth: 2, fill: false, tension: 0.4, pointRadius: 2, borderDash: [4,4]
           },
           {
-            label: 'Mood Score (×10)',
+            label: 'Mood Score (10)',
             data: moodScores.map(v => v * 10),
             borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.05)',
             borderWidth: 2, fill: false, tension: 0.4, pointRadius: 2, borderDash: [2,4]
@@ -149,7 +149,7 @@ function drawAnalyticsCharts(dbHistory = null, academicData = null) {
     });
   }
 
-  // ─── Attendance Bar Chart ───────────────────
+  //  Attendance Bar Chart 
   destroyChart('attendChart');
   const ctx2 = document.getElementById('attendChart');
   if (ctx2 && academicData && academicData.length > 0) {
@@ -183,7 +183,7 @@ function drawAnalyticsCharts(dbHistory = null, academicData = null) {
     });
   }
 
-  // ─── Feature Importance (Random Forest) ────
+  //  Feature Importance (Random Forest) 
   destroyChart('featureChart');
   const ctx3 = document.getElementById('featureChart');
   if (ctx3) {
@@ -215,7 +215,7 @@ function drawAnalyticsCharts(dbHistory = null, academicData = null) {
     });
   }
 
-  // ─── Resilience History ─────────────────────
+  //  Resilience History 
   destroyChart('resilienceChart');
   const ctx4 = document.getElementById('resilienceChart');
   if (ctx4) {
@@ -245,7 +245,7 @@ function drawAnalyticsCharts(dbHistory = null, academicData = null) {
 }
 
 function drawCounselorCharts() {
-  // ─── Risk Distribution Donut ────────────────
+  //  Risk Distribution Donut 
   destroyChart('riskDistChart');
   const ctx1 = document.getElementById('riskDistChart');
   if (ctx1) {
@@ -271,7 +271,7 @@ function drawCounselorCharts() {
     });
   }
 
-  // ─── Weekly Batch Trend ─────────────────────
+  //  Weekly Batch Trend 
   destroyChart('batchTrendChart');
   const ctx2 = document.getElementById('batchTrendChart');
   if (ctx2) {
