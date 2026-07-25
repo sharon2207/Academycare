@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AcademiCare  -  Cloud Analytics Platform for Student Burnout Detection</title>
-  <meta name="description" content="AcademiCare is an AI-powered cloud platform that detects and prevents academic burnout among college students using predictive analytics and ML." />
+  <meta name="description" content="AcademiCare is an AI-powered cloud platform that detects and prevents academic burnout among college students using predictive analytics and ML." />`n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />`n  <meta http-equiv="Pragma" content="no-cache" />`n  <meta http-equiv="Expires" content="0" />
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -571,9 +571,32 @@
 
   <script src="js/chart.min.js"></script>
   <script src="js/data.js?v=20260724_v8"></script>
-  <script src="js/validation.js?v=20260725_v16"></script>
-  <script src="js/pages.js?v=20260725_v16"></script>
+  <script src="js/validation.js?v=20260725_v17"></script>
+  <script src="js/pages.js?v=20260725_v17"></script>
   <script src="js/charts.js?v=20260724_v8"></script>
-  <script src="js/app.js?v=20260725_v16"></script>
+  <script src="js/app.js?v=20260725_v17"></script>
+  <script>
+    document.addEventListener('click', function(e) {
+      var target = e.target.closest('[data-page], .nav-link, button, a');
+      if (!target) return;
+
+      var text = (target.textContent || '').trim().toLowerCase();
+      var dataPage = target.getAttribute('data-page');
+
+      if (dataPage) {
+        e.preventDefault();
+        if (typeof showPage === 'function') showPage(dataPage);
+      } else if (text === 'daily check-in' || text.includes('start daily check-in') || text === 'daily checkin') {
+        e.preventDefault();
+        if (typeof showPage === 'function') showPage('checkin');
+      } else if (text === 'dashboard' || text.includes('go to dashboard') || text.includes('view live demo')) {
+        e.preventDefault();
+        if (typeof showPage === 'function') showPage('dashboard');
+      } else if (text === 'analytics' || text.includes('see analytics') || text.includes('view your analytics')) {
+        e.preventDefault();
+        if (typeof showPage === 'function') showPage('analytics');
+      }
+    }, true);
+  </script>
 </body>
 </html>

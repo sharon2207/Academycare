@@ -1,9 +1,9 @@
-// =============================================
-// AcademiCare — Main App Controller
+﻿// =============================================
+// AcademiCare â€” Main App Controller
 // Navigation, page management, UI interactions
 // =============================================
 
-// ─── PAGE REGISTRY ───────────────────────────
+// â”€â”€â”€ PAGE REGISTRY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const PAGES = {
   landing:   { id: 'page-landing',   render: null,                navbarStyle: 'transparent' },
   login:     { id: 'page-login',     render: renderLoginPage,     navbarStyle: 'solid' },
@@ -22,7 +22,7 @@ function getCleanHash() {
   return PAGES[raw] ? raw : null;
 }
 
-// ─── AUTH MODAL OVERLAY ──────────────────────
+// â”€â”€â”€ AUTH MODAL OVERLAY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openAuthModal(type = 'login') {
   const modal = document.getElementById('auth-modal');
   const loginCard = document.getElementById('auth-card-login');
@@ -48,7 +48,7 @@ function closeAuthModal() {
   document.body.style.overflow = '';
 }
 
-// ─── NAVIGATION ──────────────────────────────
+// â”€â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showPage(pageName, sectionHash = null) {
   if (!PAGES[pageName]) pageName = 'landing';
 
@@ -123,7 +123,7 @@ function updateNavbarAuth() {
               <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:white">${user.avatar || 'U'}</div>
               <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:600;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${user.name ? user.name.split(' ')[0] : 'User'}</span>
             </button>
-            <button type="button" onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">🚪 Logout</button>
+            <button type="button" onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">ðŸšª Logout</button>
           </div>
         `;
       } catch(e) {
@@ -147,7 +147,7 @@ function updateNavbarAuth() {
           <button type="button" onclick="showPage('dashboard')" class="nav-link" style="background:none;border:none;cursor:pointer">Dashboard</button>
           <button type="button" onclick="showPage('checkin')" class="nav-link" style="background:none;border:none;cursor:pointer">Daily Check-In</button>
           <button type="button" onclick="showPage('analytics')" class="nav-link" style="background:none;border:none;cursor:pointer">Analytics</button>
-          <button type="button" onclick="logout()" class="nav-link" style="background:none;border:none;cursor:pointer;color:#f87171">🚪 Logout (${user.name ? user.name.split(' ')[0] : 'User'})</button>
+          <button type="button" onclick="logout()" class="nav-link" style="background:none;border:none;cursor:pointer;color:#f87171">ðŸšª Logout (${user.name ? user.name.split(' ')[0] : 'User'})</button>
         `;
       } catch(e) {}
     } else {
@@ -155,8 +155,8 @@ function updateNavbarAuth() {
         <button type="button" onclick="showPage('landing')" class="nav-link" style="background:none;border:none;cursor:pointer">Home</button>
         <button type="button" onclick="navigateToSection('#features')" class="nav-link" style="background:none;border:none;cursor:pointer">Features</button>
         <button type="button" onclick="navigateToSection('#ml-models')" class="nav-link" style="background:none;border:none;cursor:pointer">ML Models</button>
-        <button type="button" onclick="openAuthModal('login')" class="nav-link" style="background:none;border:none;cursor:pointer;color:var(--purple-light);font-weight:700">🔑 Sign In</button>
-        <button type="button" onclick="openAuthModal('register')" class="nav-link" style="background:none;border:none;cursor:pointer;color:#34d399;font-weight:700">✨ Create Account</button>
+        <button type="button" onclick="openAuthModal('login')" class="nav-link" style="background:none;border:none;cursor:pointer;color:var(--purple-light);font-weight:700">ðŸ”‘ Sign In</button>
+        <button type="button" onclick="openAuthModal('register')" class="nav-link" style="background:none;border:none;cursor:pointer;color:#34d399;font-weight:700">âœ¨ Create Account</button>
       `;
     }
   }
@@ -175,7 +175,7 @@ function updateNavLinks(page) {
   // Update nav active state if needed
 }
 
-// ─── SCROLL HANDLER ──────────────────────────
+// â”€â”€â”€ SCROLL HANDLER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 window.addEventListener('scroll', () => {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
@@ -186,13 +186,13 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// ─── HAMBURGER MENU ──────────────────────────
+// â”€â”€â”€ HAMBURGER MENU â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function toggleMenu() {
   const links = document.getElementById('navLinks');
   if (links) links.classList.toggle('open');
 }
 
-// ─── AUTH ────────────────────────────────────
+// â”€â”€â”€ AUTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let selectedRole = 'student';
 function selectRole(role) {
   selectedRole = role;
@@ -254,7 +254,7 @@ async function handleLogin() {
     localStorage.setItem('academicare_user', JSON.stringify(user));
     closeAuthModal();
     updateNavbarAuth();
-    showToast('✅', `Signed in successfully as ${user.name}! Redirecting to Daily Check-In...`, 'success');
+    showToast('âœ…', `Signed in successfully as ${user.name}! Redirecting to Daily Check-In...`, 'success');
     showPage('checkin');
 
   } catch (err) {
@@ -267,7 +267,7 @@ async function handleLogin() {
     localStorage.setItem('academicare_user', JSON.stringify(user));
     closeAuthModal();
     updateNavbarAuth();
-    showToast('✅', `Signed in successfully! Redirecting to Daily Check-In...`, 'success');
+    showToast('âœ…', `Signed in successfully! Redirecting to Daily Check-In...`, 'success');
     showPage('checkin');
   }
 }
@@ -330,7 +330,7 @@ async function handleRegister() {
     localStorage.setItem('academicare_user', JSON.stringify(user));
     closeAuthModal();
     updateNavbarAuth();
-    showToast('🎉', `Account created successfully for ${name}! Redirecting to Daily Check-In...`, 'success');
+    showToast('ðŸŽ‰', `Account created successfully for ${name}! Redirecting to Daily Check-In...`, 'success');
     showPage('checkin');
 
   } catch (err) {
@@ -343,12 +343,12 @@ async function handleRegister() {
     localStorage.setItem('academicare_user', JSON.stringify(user));
     closeAuthModal();
     updateNavbarAuth();
-    showToast('🎉', `Account ready for ${name}! Redirecting to Daily Check-In...`, 'success');
+    showToast('ðŸŽ‰', `Account ready for ${name}! Redirecting to Daily Check-In...`, 'success');
     showPage('checkin');
   }
 }
 
-// ─── AUTH-AWARE FETCH HELPER ──────────────────
+// â”€â”€â”€ AUTH-AWARE FETCH HELPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function authFetch(url, options = {}) {
   const token = typeof getStoredToken === 'function' ? getStoredToken() : null;
   const headers = {
@@ -360,7 +360,7 @@ async function authFetch(url, options = {}) {
   if (res.status === 401) {
     if (typeof clearToken === 'function') clearToken();
     localStorage.removeItem('academicare_user');
-    showToast('🔒', 'Your session has expired. Please sign in again.', 'error');
+    showToast('ðŸ”’', 'Your session has expired. Please sign in again.', 'error');
     setTimeout(() => { updateNavbarAuth(); openAuthModal('login'); }, 1500);
     throw new Error('Session expired');
   }
@@ -371,11 +371,11 @@ function logout() {
   if (typeof clearToken === 'function') clearToken();
   localStorage.removeItem('academicare_user');
   updateNavbarAuth();
-  showToast('👋', 'Logged out successfully! Starting fresh session.', 'info');
+  showToast('ðŸ‘‹', 'Logged out successfully! Starting fresh session.', 'info');
   setTimeout(() => showPage('landing'), 300);
 }
 
-// ─── TOAST NOTIFICATIONS ─────────────────────
+// â”€â”€â”€ TOAST NOTIFICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showToast(icon, message, type = 'info') {
   let container = document.getElementById('toastContainer');
   if (!container) {
@@ -399,7 +399,7 @@ function showToast(icon, message, type = 'info') {
   toast.innerHTML = `
     <span class="toast-icon">${icon}</span>
     <span class="toast-msg">${message}</span>
-    <span class="toast-close" onclick="this.closest('.toast').remove()">×</span>
+    <span class="toast-close" onclick="this.closest('.toast').remove()">Ã—</span>
   `;
 
   container.appendChild(toast);
@@ -415,7 +415,7 @@ function showToast(icon, message, type = 'info') {
   }, 4000);
 }
 
-// ─── INTERSECTION OBSERVER (Animate on scroll) ─
+// â”€â”€â”€ INTERSECTION OBSERVER (Animate on scroll) â”€
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -434,7 +434,7 @@ function observeElements() {
   });
 }
 
-// ─── KEYBOARD SHORTCUTS ───────────────────────
+// â”€â”€â”€ KEYBOARD SHORTCUTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeAuthModal();
@@ -443,7 +443,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ─── HASH NAVIGATION ─────────────────────────
+// â”€â”€â”€ HASH NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 window.addEventListener('hashchange', () => {
   const target = getCleanHash();
   if (target && currentPage !== target) {
@@ -451,7 +451,7 @@ window.addEventListener('hashchange', () => {
   }
 });
 
-// ─── INIT ─────────────────────────────────────
+// â”€â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', () => {
   // Check session validity on load
   const token     = typeof getStoredToken === 'function' ? getStoredToken() : null;
@@ -477,12 +477,12 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const user = JSON.parse(freshUser);
       setTimeout(() => {
-        showToast('👤', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Loaded Daily Check-In portal.`, 'info');
+        showToast('ðŸ‘¤', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Loaded Daily Check-In portal.`, 'info');
       }, 1000);
     } catch (e) {}
   } else {
     setTimeout(() => {
-      showToast('🎓', 'AcademiCare — Predictive Student Wellness Platform', 'success');
+      showToast('ðŸŽ“', 'AcademiCare â€” Predictive Student Wellness Platform', 'success');
     }, 1200);
   }
 
