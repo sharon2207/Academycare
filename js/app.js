@@ -52,19 +52,20 @@ function closeAuthModal() {
 function showPage(pageName, sectionHash = null) {
   if (!PAGES[pageName]) pageName = 'landing';
 
-  // Sync browser URL hash
-  const targetHash = '#' + pageName;
-  if (window.location.hash !== targetHash && !sectionHash) {
-    try { history.pushState(null, null, targetHash); } catch(e) {}
-  }
+  // Sync browser URL hash safely
+  try {
+    if (window.location.hash !== '#' + pageName && !sectionHash) {
+      window.location.hash = '#' + pageName;
+    }
+  } catch(e) {}
 
-  // Explicitly hide all pages
+  // Explicitly hide all page sections
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');
-    p.style.display = 'none';
+    p.setAttribute('style', 'display: none !important;');
   });
 
-  // Render page if it has a renderer
+  // Render page if renderer exists
   const pageConfig = PAGES[pageName];
   if (pageConfig && pageConfig.render) {
     try {
@@ -74,11 +75,11 @@ function showPage(pageName, sectionHash = null) {
     }
   }
 
-  // Show selected page explicitly
+  // Show selected page explicitly with !important
   const pageEl = document.getElementById(pageConfig.id);
   if (pageEl) {
     pageEl.classList.add('active');
-    pageEl.style.display = 'block';
+    pageEl.setAttribute('style', 'display: block !important;');
     if (!sectionHash) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -118,11 +119,11 @@ function updateNavbarAuth() {
         const user = JSON.parse(savedUser);
         container.innerHTML = `
           <div style="display:flex;align-items:center;gap:8px">
-            <div onclick="showPage('${user.role === 'student' ? 'dashboard' : 'counselor'}')" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:5px 10px;border-radius:var(--radius-full);cursor:pointer;">
+            <button type="button" onclick="showPage('${user.role === 'student' ? 'dashboard' : 'counselor'}')" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:5px 10px;border-radius:var(--radius-full);cursor:pointer;">
               <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:white">${user.avatar || 'U'}</div>
               <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:600;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${user.name ? user.name.split(' ')[0] : 'User'}</span>
-            </div>
-            <button onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">🚪 Logout</button>
+            </button>
+            <button type="button" onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">🚪 Logout</button>
           </div>
         `;
       } catch(e) {
@@ -130,8 +131,8 @@ function updateNavbarAuth() {
       }
     } else {
       container.innerHTML = `
-        <button class="btn-outline" onclick="openAuthModal('login')">Sign In</button>
-        <button class="btn-primary" onclick="openAuthModal('register')">Get Started</button>
+        <button type="button" class="btn-outline" onclick="openAuthModal('login')">Sign In</button>
+        <button type="button" class="btn-primary" onclick="openAuthModal('register')">Get Started</button>
       `;
     }
   }
@@ -142,20 +143,20 @@ function updateNavbarAuth() {
       try {
         const user = JSON.parse(savedUser);
         links.innerHTML = `
-          <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
-          <a onclick="showPage('dashboard')" class="nav-link" style="cursor:pointer">Dashboard</a>
-          <a onclick="showPage('checkin')" class="nav-link" style="cursor:pointer">Daily Check-In</a>
-          <a onclick="showPage('analytics')" class="nav-link" style="cursor:pointer">Analytics</a>
-          <a onclick="logout()" class="nav-link" style="cursor:pointer;color:#f87171">🚪 Logout (${user.name ? user.name.split(' ')[0] : 'User'})</a>
+          <button type="button" onclick="showPage('landing')" class="nav-link" style="background:none;border:none;cursor:pointer">Home</button>
+          <button type="button" onclick="showPage('dashboard')" class="nav-link" style="background:none;border:none;cursor:pointer">Dashboard</button>
+          <button type="button" onclick="showPage('checkin')" class="nav-link" style="background:none;border:none;cursor:pointer">Daily Check-In</button>
+          <button type="button" onclick="showPage('analytics')" class="nav-link" style="background:none;border:none;cursor:pointer">Analytics</button>
+          <button type="button" onclick="logout()" class="nav-link" style="background:none;border:none;cursor:pointer;color:#f87171">🚪 Logout (${user.name ? user.name.split(' ')[0] : 'User'})</button>
         `;
       } catch(e) {}
     } else {
       links.innerHTML = `
-        <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
-        <a onclick="navigateToSection('#features')" class="nav-link" style="cursor:pointer">Features</a>
-        <a onclick="navigateToSection('#ml-models')" class="nav-link" style="cursor:pointer">ML Models</a>
-        <a onclick="openAuthModal('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700">🔑 Sign In</a>
-        <a onclick="openAuthModal('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700">✨ Create Account</a>
+        <button type="button" onclick="showPage('landing')" class="nav-link" style="background:none;border:none;cursor:pointer">Home</button>
+        <button type="button" onclick="navigateToSection('#features')" class="nav-link" style="background:none;border:none;cursor:pointer">Features</button>
+        <button type="button" onclick="navigateToSection('#ml-models')" class="nav-link" style="background:none;border:none;cursor:pointer">ML Models</button>
+        <button type="button" onclick="openAuthModal('login')" class="nav-link" style="background:none;border:none;cursor:pointer;color:var(--purple-light);font-weight:700">🔑 Sign In</button>
+        <button type="button" onclick="openAuthModal('register')" class="nav-link" style="background:none;border:none;cursor:pointer;color:#34d399;font-weight:700">✨ Create Account</button>
       `;
     }
   }
@@ -414,18 +415,6 @@ function showToast(icon, message, type = 'info') {
   }, 4000);
 }
 
-// ─── SMOOTH SCROLL FOR NAV LINKS ─────────────
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    const href = this.getAttribute('href');
-    if (href === '#' || href === '#landing' || href === '#login' || href === '#register' || href === '#dashboard' || href === '#checkin' || href === '#analytics' || href === '#counselor' || href === '#groups') {
-      return;
-    }
-    e.preventDefault();
-    navigateToSection(href);
-  });
-});
-
 // ─── INTERSECTION OBSERVER (Animate on scroll) ─
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -476,6 +465,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const target = getCleanHash();
   if (target) {
     showPage(target);
+  } else if (savedUser) {
+    showPage('checkin');
   } else {
     showPage('landing');
   }
@@ -486,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const user = JSON.parse(freshUser);
       setTimeout(() => {
-        showToast('👤', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Redirecting to Daily Check-In...`, 'info');
+        showToast('👤', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Loaded Daily Check-In portal.`, 'info');
       }, 1000);
     } catch (e) {}
   } else {
