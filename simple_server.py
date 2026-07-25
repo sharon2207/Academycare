@@ -169,7 +169,7 @@ VALID_ROLES       = {'student','counselor','admin','faculty'}
 
 # â”€â”€ Create SQLite DB + tables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 def init_db():
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     cur = con.cursor()
 
     # Enable WAL mode for concurrency safety
@@ -209,6 +209,22 @@ def init_db():
         cur.execute("ALTER TABLE students ADD COLUMN locked_until TEXT")
     if 'age' not in cols:
         cur.execute("ALTER TABLE students ADD COLUMN age INTEGER")
+    # Auto-migration for counselor_alerts
+    try:
+        cur.execute("PRAGMA table_info(counselor_alerts)")
+        ca_cols = [r[1] for r in cur.fetchall()]
+        if ca_cols:
+            if 'alert_date' not in ca_cols:
+                cur.execute("ALTER TABLE counselor_alerts ADD COLUMN alert_date TEXT")
+            if 'anon_token' not in ca_cols:
+                cur.execute("ALTER TABLE counselor_alerts ADD COLUMN anon_token TEXT")
+            if 'score' not in ca_cols:
+                cur.execute("ALTER TABLE counselor_alerts ADD COLUMN score REAL DEFAULT 50.0")
+            if 'trigger_reasons' not in ca_cols:
+                cur.execute("ALTER TABLE counselor_alerts ADD COLUMN trigger_reasons TEXT")
+    except Exception as e:
+        print("counselor_alerts migration notice:", e)
+
 
     # 3. Create all other tables
     cur.executescript("""
@@ -586,13 +602,13 @@ def run_ml_inference(data: CheckInRequest) -> dict:
 
     # Random Forest outputs
     risk_enc    = RF_CLF.predict(features)[0]
-    risk_level  = LE.inverse_transform([risk_enc])[0]
+    risk_level  = str(LE.inverse_transform([risk_enc])[0])
     proba       = RF_CLF.predict_proba(features)[0]
     score       = float(np.clip(RF_REG.predict(features)[0], 0, 100))
 
     # Class probabilities dict
     classes = list(LE.classes_)
-    proba_dict = {cls: round(float(p), 4) for cls, p in zip(classes, proba)}
+    proba_dict = {str(cls): round(float(p), 4) for cls, p in zip(classes, proba)}
 
     # Exam-day stress prediction (Regression model)
     exam_feat   = np.array([[score, data.days_to_next_exam,
@@ -718,7 +734,7 @@ def submit_checkin(req: CheckInRequest, user: dict = Depends(get_current_user)):
     today = date.today().isoformat()
     ml    = run_ml_inference(req)
 
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     cur = con.cursor()
 
     # Save check-in
@@ -807,7 +823,7 @@ def submit_checkin(req: CheckInRequest, user: dict = Depends(get_current_user)):
 @app.get("/api/dashboard/{student_id}")
 def get_dashboard(student_id: int):
     """Returns full dashboard data for a student â€” all from SQLite."""
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     con.row_factory = sqlite3.Row
     cur = con.cursor()
 
@@ -861,7 +877,7 @@ def get_dashboard(student_id: int):
 # â”€â”€ GET /history/{student_id} â”€â”€ 30-day trend â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 @app.get("/api/history/{student_id}")
 def get_history(student_id: int, days: int = 30):
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     con.row_factory = sqlite3.Row
     cur = con.cursor()
     cur.execute("""
@@ -885,7 +901,7 @@ def check_data_sufficiency(student_id: int, user: dict = Depends(get_current_use
     """Returns flags indicating whether enough data exists for each ML feature."""
     if user.get('role') == 'student' and user.get('id') != student_id:
         raise HTTPException(status_code=403, detail="Access denied.")
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     cur = con.cursor()
     cur.execute("SELECT COUNT(*) FROM daily_checkins WHERE student_id=?", (student_id,))
     total_checkins = cur.fetchone()[0]
@@ -919,7 +935,7 @@ def check_data_sufficiency(student_id: int, user: dict = Depends(get_current_use
 def get_alerts(status: str = "pending", user: dict = Depends(get_current_user)):
     if user.get('role') not in ('counselor', 'admin'):
         raise HTTPException(status_code=403, detail="Access denied. Counselor or admin role required.")
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     con.row_factory = sqlite3.Row
     cur = con.cursor()
     cur.execute("""
@@ -940,7 +956,7 @@ def get_alerts(status: str = "pending", user: dict = Depends(get_current_user)):
 # â”€â”€ POST /alert/{token}/resolve â”€â”€ resolve alert â”€â”€â”€â”€â”€â”€â”€
 @app.post("/api/counselor/alerts/{token}/resolve")
 def resolve_alert(token: str, user: dict = Depends(require_role('counselor', 'admin'))):
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     con.execute("UPDATE counselor_alerts SET status='resolved' WHERE anon_token=?", (token,))
     con.commit()
     con.close()
@@ -956,7 +972,7 @@ def login(req: LoginRequest):
     # Check brute-force lockout first (raises 429 if locked)
     check_and_record_login_attempt(email, success=False)
 
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     con.row_factory = sqlite3.Row
     cur = con.cursor()
 
@@ -1017,7 +1033,7 @@ def login(req: LoginRequest):
 # â”€â”€ GET /students â”€â”€ list all students (counselor/admin only) â”€
 @app.get("/api/students")
 def list_students(user: dict = Depends(require_role('counselor', 'admin', 'faculty'))):
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     con.row_factory = sqlite3.Row
     cur = con.cursor()
     cur.execute("""
@@ -1039,7 +1055,7 @@ def list_students(user: dict = Depends(require_role('counselor', 'admin', 'facul
 def create_student(req: StudentCreate):
     """Register a new student. Passwords are bcrypt-hashed before storage."""
     hashed = hash_password(req.password)
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     cur = con.cursor()
     try:
         cur.execute("""
@@ -1067,7 +1083,7 @@ def create_student(req: StudentCreate):
 def get_student_subjects(student_id: int, user: dict = Depends(get_current_user)):
     if user.get('role') == 'student' and user.get('id') != student_id:
         raise HTTPException(status_code=403, detail="Access denied.")
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     con.row_factory = sqlite3.Row
     cur = con.cursor()
     cur.execute("SELECT * FROM student_subjects WHERE student_id=? ORDER BY id ASC", (student_id,))
@@ -1080,7 +1096,7 @@ def get_student_subjects(student_id: int, user: dict = Depends(get_current_user)
 def add_student_subject(req: SubjectCreateRequest, user: dict = Depends(get_current_user)):
     if user.get('role') == 'student' and user.get('id') != req.student_id:
         raise HTTPException(status_code=403, detail="Access denied.")
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     cur = con.cursor()
     cur.execute("""
         INSERT INTO student_subjects
@@ -1095,7 +1111,7 @@ def add_student_subject(req: SubjectCreateRequest, user: dict = Depends(get_curr
 
 @app.delete("/api/subjects/{subject_id}")
 def delete_student_subject(subject_id: int):
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     cur = con.cursor()
     cur.execute("DELETE FROM student_subjects WHERE id=?", (subject_id,))
     con.commit()
@@ -1106,7 +1122,7 @@ def delete_student_subject(subject_id: int):
 # â”€â”€ GET /db/stats â”€â”€ show what's in the database â”€â”€â”€â”€â”€â”€â”€
 @app.get("/api/db/stats")
 def db_stats(user: dict = Depends(require_role('admin'))):
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, timeout=30.0)
     cur = con.cursor()
     tables = ["students", "daily_checkins", "burnout_scores",
               "wellness_recommendations", "counselor_alerts"]
