@@ -1,9 +1,9 @@
 // =============================================
-// AcademiCare  -  Main App Controller
+// AcademiCare — Main App Controller
 // Navigation, page management, UI interactions
 // =============================================
 
-//  PAGE REGISTRY 
+// ─── PAGE REGISTRY ───────────────────────────
 const PAGES = {
   landing:   { id: 'page-landing',   render: null,                navbarStyle: 'transparent' },
   login:     { id: 'page-login',     render: renderLoginPage,     navbarStyle: 'solid' },
@@ -22,94 +22,23 @@ function getCleanHash() {
   return PAGES[raw] ? raw : null;
 }
 
-//  AUTH MODAL OVERLAY 
+// ─── AUTH MODAL OVERLAY ──────────────────────
 function openAuthModal(type = 'login') {
   const modal = document.getElementById('auth-modal');
+  const loginCard = document.getElementById('auth-card-login');
+  const regCard = document.getElementById('auth-card-register');
+
   if (!modal) return showPage(type);
 
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 
   if (type === 'register') {
-    modal.innerHTML = `
-      <div class="auth-card" style="width:100%;max-width:480px;background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.8);position:relative;max-height:90vh;overflow-y:auto">
-        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem"></button>
-        <h2 style="font-size:1.5rem;font-weight:800;color:white;margin-bottom:4px;text-align:center">Create Student Account</h2>
-        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:20px;text-align:center">CHRIST (Deemed to be University) Student Portal</p>
-        
-        <div style="margin-bottom:12px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Full Name *</label>
-          <input type="text" id="reg-name" placeholder="Your full name" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
-        </div>
-        <div style="margin-bottom:12px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">College Email *</label>
-          <input type="email" id="reg-email" placeholder="student@christuniversity.in" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
-        </div>
-        <div style="margin-bottom:12px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Department *</label>
-          <select id="reg-dept" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box">
-            <option value="MCA">MCA  -  Dept. of Computer Science</option>
-            <option value="MSc DS">MSc Data Science</option>
-            <option value="MSc CS">MSc Computer Science</option>
-            <option value="MBA">MBA  -  School of Business</option>
-            <option value="BCom FA">BCom Finance and Accountancy</option>
-            <option value="BA LLB">School of Law</option>
-            <option value="BTech CS">School of Engineering</option>
-          </select>
-        </div>
-        <div style="margin-bottom:12px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Year of Study *</label>
-          <select id="reg-year" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box">
-            <option value="1">Year 1</option>
-            <option value="2" selected>Year 2</option>
-            <option value="3">Year 3</option>
-          </select>
-        </div>
-        <div style="margin-bottom:12px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Password *</label>
-          <input type="password" id="reg-pass" placeholder="Create a strong password" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
-          <div id="reg-pass-strength"></div>
-        </div>
-        <div style="margin-bottom:20px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Confirm Password *</label>
-          <input type="password" id="reg-confirm-pass" placeholder="Re-enter password" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
-        </div>
-        <button id="btn-register" onclick="handleRegister()" style="width:100%;padding:12px;border-radius:9999px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-weight:700;font-size:0.95rem;border:none;cursor:pointer">
-          Create Account & Continue 
-        </button>
-        <div style="text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-muted)">
-          Already have an account? <a onclick="openAuthModal('login')" style="color:var(--purple-light);font-weight:600;cursor:pointer">Sign in here</a>
-        </div>
-      </div>
-    `;
+    if (loginCard) loginCard.style.display = 'none';
+    if (regCard) regCard.style.display = 'block';
   } else {
-    modal.innerHTML = `
-      <div class="auth-card" style="width:100%;max-width:420px;background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.8);position:relative">
-        <button onclick="closeAuthModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-secondary);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem"></button>
-        <h2 style="font-size:1.5rem;font-weight:800;color:white;margin-bottom:4px;text-align:center">Welcome Back</h2>
-        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:20px;text-align:center">Sign in to your student wellness portal</p>
-        
-        <div class="role-selector" style="display:flex;gap:8px;margin-bottom:16px">
-          <button class="role-btn selected" id="role-student" onclick="selectRole('student')"> Student</button>
-          <button class="role-btn" id="role-counselor" onclick="selectRole('counselor')"> Counselor</button>
-          <button class="role-btn" id="role-admin" onclick="selectRole('admin')"> Admin</button>
-        </div>
-        <div style="margin-bottom:14px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">College Email *</label>
-          <input type="email" id="login-email" placeholder="student@christuniversity.in" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
-        </div>
-        <div style="margin-bottom:20px">
-          <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Password *</label>
-          <input type="password" id="login-pass" placeholder="" style="width:100%;padding:10px;border-radius:10px;background:#111113;border:1px solid var(--border);color:white;font-size:0.9rem;box-sizing:border-box" />
-        </div>
-        <button id="btn-login" onclick="handleLogin()" style="width:100%;padding:12px;border-radius:9999px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-weight:700;font-size:0.95rem;border:none;cursor:pointer">
-          Sign In to Dashboard 
-        </button>
-        <div style="text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-muted)">
-          Don't have an account? <a onclick="openAuthModal('register')" style="color:var(--purple-light);font-weight:600;cursor:pointer">Register here</a>
-        </div>
-      </div>
-    `;
+    if (regCard) regCard.style.display = 'none';
+    if (loginCard) loginCard.style.display = 'block';
   }
 
   // Attach real-time validation handlers
@@ -136,7 +65,7 @@ function closeAuthModal() {
   document.body.style.overflow = '';
 }
 
-//  NAVIGATION 
+// ─── NAVIGATION ──────────────────────────────
 function showPage(pageName, sectionHash = null) {
   if (!PAGES[pageName]) pageName = 'landing';
 
@@ -210,7 +139,7 @@ function updateNavbarAuth() {
               <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:white">${user.avatar || 'U'}</div>
               <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:600;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${user.name ? user.name.split(' ')[0] : 'User'}</span>
             </div>
-            <button onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;"> Logout</button>
+            <button onclick="logout()" style="padding:5px 10px;border-radius:var(--radius-full);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;font-size:0.7rem;cursor:pointer;">🚪 Logout</button>
           </div>
         `;
       } catch(e) {
@@ -234,7 +163,7 @@ function updateNavbarAuth() {
           <a onclick="showPage('dashboard')" class="nav-link" style="cursor:pointer">Dashboard</a>
           <a onclick="showPage('checkin')" class="nav-link" style="cursor:pointer">Daily Check-In</a>
           <a onclick="showPage('analytics')" class="nav-link" style="cursor:pointer">Analytics</a>
-          <a onclick="logout()" class="nav-link" style="cursor:pointer;color:#f87171"> Logout (${user.name ? user.name.split(' ')[0] : 'User'})</a>
+          <a onclick="logout()" class="nav-link" style="cursor:pointer;color:#f87171">🚪 Logout (${user.name ? user.name.split(' ')[0] : 'User'})</a>
         `;
       } catch(e) {}
     } else {
@@ -242,8 +171,8 @@ function updateNavbarAuth() {
         <a onclick="showPage('landing')" class="nav-link" style="cursor:pointer">Home</a>
         <a onclick="navigateToSection('#features')" class="nav-link" style="cursor:pointer">Features</a>
         <a onclick="navigateToSection('#ml-models')" class="nav-link" style="cursor:pointer">ML Models</a>
-        <a onclick="openAuthModal('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700"> Sign In</a>
-        <a onclick="openAuthModal('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700"> Create Account</a>
+        <a onclick="openAuthModal('login')" class="nav-link" style="cursor:pointer;color:var(--purple-light);font-weight:700">🔑 Sign In</a>
+        <a onclick="openAuthModal('register')" class="nav-link" style="cursor:pointer;color:#34d399;font-weight:700">✨ Create Account</a>
       `;
     }
   }
@@ -262,7 +191,7 @@ function updateNavLinks(page) {
   // Update nav active state if needed
 }
 
-//  SCROLL HANDLER 
+// ─── SCROLL HANDLER ──────────────────────────
 window.addEventListener('scroll', () => {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
@@ -273,13 +202,13 @@ window.addEventListener('scroll', () => {
   }
 });
 
-//  HAMBURGER MENU 
+// ─── HAMBURGER MENU ──────────────────────────
 function toggleMenu() {
   const links = document.getElementById('navLinks');
   if (links) links.classList.toggle('open');
 }
 
-//  AUTH 
+// ─── AUTH ────────────────────────────────────
 let selectedRole = 'student';
 function selectRole(role) {
   selectedRole = role;
@@ -293,11 +222,11 @@ async function handleLogin() {
 
   const email = document.getElementById('login-email')?.value?.trim();
   const pass  = document.getElementById('login-pass')?.value;
-  if (!email) return showToast('', 'Please enter your college email', 'error');
-  if (!pass)  return showToast('', 'Please enter your password', 'error');
+  if (!email) return showToast('❌', 'Please enter your college email', 'error');
+  if (!pass)  return showToast('❌', 'Please enter your password', 'error');
 
   if (typeof showLoadingBtn === 'function') showLoadingBtn('btn-login', 'Signing in...');
-  else showToast('', 'Authenticating credentials...', 'info');
+  else showToast('🔐', 'Authenticating credentials...', 'info');
 
   try {
     const res = await fetch('/api/login', {
@@ -329,20 +258,20 @@ async function handleLogin() {
       if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
       localStorage.setItem('academicare_user', JSON.stringify(user));
       closeAuthModal();
-      showToast('', `Signed in successfully as ${user.name}!`, 'success');
+      showToast('✅', `Signed in successfully as ${user.name}!`, 'success');
       setTimeout(() => {
         if (user.role === 'counselor' || user.role === 'admin') showPage('counselor');
         else showPage('dashboard');
       }, 600);
     } else {
       const msg = data.detail || 'Incorrect email or password. Please try again.';
-      showToast('', msg, 'error');
-      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard ');
+      showToast('❌', msg, 'error');
+      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard →');
     }
   } catch (err) {
     console.warn('Server error or network offline:', err.message);
-    showToast('', 'Unable to reach backend server. Please check your connection.', 'error');
-    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard ');
+    showToast('❌', 'Unable to reach backend server. Please check your connection.', 'error');
+    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-login', 'Sign In to Dashboard →');
   }
 }
 
@@ -359,16 +288,16 @@ async function handleRegister() {
   const ageEl   = document.getElementById('reg-age');
   const age     = ageEl && ageEl.value ? parseInt(ageEl.value) : null;
 
-  if (!name)  return showToast('', 'Please enter your full name', 'error');
-  if (!email) return showToast('', 'Please enter your college email', 'error');
-  if (!pass)  return showToast('', 'Please choose a password', 'error');
-  if (confirm && pass !== confirm) return showToast('', 'Passwords do not match', 'error');
+  if (!name)  return showToast('❌', 'Please enter your full name', 'error');
+  if (!email) return showToast('❌', 'Please enter your college email', 'error');
+  if (!pass)  return showToast('❌', 'Please choose a password', 'error');
+  if (confirm && pass !== confirm) return showToast('❌', 'Passwords do not match', 'error');
 
   const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
   const rollNo   = (dept.slice(0,3) || 'MCA').toUpperCase() + '24B' + Math.floor(Math.random()*90+10);
 
   if (typeof showLoadingBtn === 'function') showLoadingBtn('btn-register', 'Creating Account...');
-  else showToast('', 'Creating student account in database...', 'info');
+  else showToast('💾', 'Creating student account in database...', 'info');
 
   try {
     const res = await fetch('/api/students', {
@@ -387,8 +316,8 @@ async function handleRegister() {
       if (Array.isArray(data.detail)) {
         msg = data.detail.map(e => (e.msg || '').replace('Value error, ', '')).join(' | ');
       }
-      showToast('', msg, 'error');
-      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account ');
+      showToast('❌', msg, 'error');
+      if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account →');
       return;
     }
 
@@ -401,21 +330,17 @@ async function handleRegister() {
     if (data.access_token && typeof storeToken === 'function') storeToken(data.access_token);
     localStorage.setItem('academicare_user', JSON.stringify(user));
     closeAuthModal();
-    showToast('', `Account created successfully for ${name}!`, 'success');
+    showToast('🎉', `Account created successfully for ${name}!`, 'success');
     setTimeout(() => showPage('checkin'), 600);
 
   } catch (err) {
     console.warn('Registration error:', err.message);
-    showToast('', 'Unable to reach backend server. Please check your connection.', 'error');
-    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account ');
+    showToast('❌', 'Unable to reach backend server. Please check your connection.', 'error');
+    if (typeof resetLoadingBtn === 'function') resetLoadingBtn('btn-register', 'Create Account →');
   }
 }
 
-//  AUTH-AWARE FETCH HELPER 
-/**
- * Wrapper around fetch() that auto-adds JWT Authorization header.
- * On 401 (session expired): clears session and redirects to login.
- */
+// ─── AUTH-AWARE FETCH HELPER ──────────────────
 async function authFetch(url, options = {}) {
   const token = typeof getStoredToken === 'function' ? getStoredToken() : null;
   const headers = {
@@ -427,7 +352,7 @@ async function authFetch(url, options = {}) {
   if (res.status === 401) {
     if (typeof clearToken === 'function') clearToken();
     localStorage.removeItem('academicare_user');
-    showToast('', 'Your session has expired. Please sign in again.', 'error');
+    showToast('🔒', 'Your session has expired. Please sign in again.', 'error');
     setTimeout(() => { updateNavbarAuth(); openAuthModal('login'); }, 1500);
     throw new Error('Session expired');
   }
@@ -438,11 +363,11 @@ function logout() {
   if (typeof clearToken === 'function') clearToken();
   localStorage.removeItem('academicare_user');
   updateNavbarAuth();
-  showToast('', 'Logged out successfully! Starting fresh session.', 'info');
+  showToast('👋', 'Logged out successfully! Starting fresh session.', 'info');
   setTimeout(() => showPage('landing'), 300);
 }
 
-//  TOAST NOTIFICATIONS 
+// ─── TOAST NOTIFICATIONS ─────────────────────
 function showToast(icon, message, type = 'info') {
   let container = document.getElementById('toastContainer');
   if (!container) {
@@ -466,7 +391,7 @@ function showToast(icon, message, type = 'info') {
   toast.innerHTML = `
     <span class="toast-icon">${icon}</span>
     <span class="toast-msg">${message}</span>
-    <span class="toast-close" onclick="this.closest('.toast').remove()"></span>
+    <span class="toast-close" onclick="this.closest('.toast').remove()">×</span>
   `;
 
   container.appendChild(toast);
@@ -482,7 +407,7 @@ function showToast(icon, message, type = 'info') {
   }, 4000);
 }
 
-//  SMOOTH SCROLL FOR NAV LINKS 
+// ─── SMOOTH SCROLL FOR NAV LINKS ─────────────
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
@@ -494,7 +419,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-//  INTERSECTION OBSERVER (Animate on scroll) 
+// ─── INTERSECTION OBSERVER (Animate on scroll) ─
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -513,7 +438,7 @@ function observeElements() {
   });
 }
 
-//  KEYBOARD SHORTCUTS 
+// ─── KEYBOARD SHORTCUTS ───────────────────────
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeAuthModal();
@@ -522,7 +447,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-//  HASH NAVIGATION 
+// ─── HASH NAVIGATION ─────────────────────────
 window.addEventListener('hashchange', () => {
   const target = getCleanHash();
   if (target && currentPage !== target) {
@@ -530,7 +455,7 @@ window.addEventListener('hashchange', () => {
   }
 });
 
-//  INIT 
+// ─── INIT ─────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   // Check session validity on load
   const token     = typeof getStoredToken === 'function' ? getStoredToken() : null;
@@ -554,12 +479,12 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const user = JSON.parse(freshUser);
       setTimeout(() => {
-        showToast('', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Click Dashboard to continue.`, 'info');
+        showToast('👤', `Welcome back, ${user.name ? user.name.split(' ')[0] : 'User'}! Click Dashboard to continue.`, 'info');
       }, 1000);
     } catch (e) {}
   } else {
     setTimeout(() => {
-      showToast('', 'AcademiCare  -  Predictive Student Wellness Platform', 'success');
+      showToast('🎓', 'AcademiCare — Predictive Student Wellness Platform', 'success');
     }, 1200);
   }
 
